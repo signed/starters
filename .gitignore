@@ -3,3 +3,4 @@
 target/
 out/
 .gradle/
+node_modules/
