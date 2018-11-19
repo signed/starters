@@ -6,11 +6,16 @@ describe('hello world', () => {
   });
 });
 
-
 describe('testing async functions', () => {
-  it('await with an async test function', async () => {
-    expect(await asyncFunction('123')).toEqual('123 resolve')
+  describe('await with an async test function', () => {
+    it('success', async () => {
+      expect(await asyncFunction('123')).toEqual('123 resolve')
+    });
+    it.skip('fail', async () => {
+      expect(await asyncFunction('123', false)).toEqual('123 resolve')
+    });
   });
+
   describe('inject a done', () => {
     it('and callback is invoked', async (done) => {
       callbackFunction((value: string) => {

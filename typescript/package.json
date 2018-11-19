@@ -26,6 +26,7 @@
     "roots": [
       "<rootDir>/tests"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/tests/setup.ts"
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setup.ts",
+    "collectCoverage": true
   }
 }

@@ -1,9 +1,14 @@
 export const hello = (name: string): string => `Hello ${name}`;
 
 
-export const asyncFunction = async (input: string) => {
+export const asyncFunction = async (input: string, success: boolean = true) => {
   return new Promise<string>((resolve, reject) => {
-    resolve(`${input} resolve`);
+    if(success){
+      resolve(`${input} resolve`);
+      return;
+    }
+
+    reject(new Error('rejected as requested'))
   });
 };
 
