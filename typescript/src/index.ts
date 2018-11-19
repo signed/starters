@@ -6,3 +6,9 @@ export const asyncFunction = async (input: string) => {
     resolve(`${input} resolve`);
   });
 };
+
+export const callbackFunction = (callback: (value: string) => void, invoke: boolean = true): void => {
+  if (invoke) {
+    callback('hello from the callback');
+  }
+};

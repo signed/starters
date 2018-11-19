@@ -25,6 +25,7 @@
     "testEnvironment": "node",
     "roots": [
       "<rootDir>/tests"
-    ]
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setup.ts"
   }
 }
