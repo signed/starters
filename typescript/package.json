@@ -11,6 +11,16 @@
     "typescript": "3.1.6"
   },
   "jest": {
+    "globals": {
+      "ts-jest": {
+        "diagnostics": {
+          "warnOnly": true,
+          "ignoreCodes": [
+            "TS151001"
+          ]
+        }
+      }
+    },
     "preset": "ts-jest",
     "testEnvironment": "node",
     "roots": [

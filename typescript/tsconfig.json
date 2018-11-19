@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./out/",
-    "strict": true
+    "strict": true,
+    "target": "es6"
   }
 }
