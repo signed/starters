@@ -7,15 +7,6 @@ describe('hello world', () => {
 });
 
 describe('testing async functions', () => {
-  describe('await with an async test function', () => {
-    it('success', async () => {
-      expect(await asyncFunction('123')).toEqual('123 resolve')
-    });
-    it.skip('fail', async () => {
-      expect(await asyncFunction('123', false)).toEqual('123 resolve')
-    });
-  });
-
   describe('inject a done', () => {
     it('and callback is invoked', async (done) => {
       callbackFunction((value: string) => {
@@ -28,7 +19,27 @@ describe('testing async functions', () => {
         expect(value).toEqual('hello from the callback');
         done();
       }, false);
+    });
+  });
 
+  describe('return a promise', () => {
+    it('success', () => {
+      return asyncFunction('123').then(data => expect(data).toEqual('123 resolve'))
+    });
+    it.skip('fail', () => {
+      return asyncFunction('123', false).then(data => expect(data).toEqual('123 resolve'))
+    });
+    it('expect to fail', () => {
+      return asyncFunction('123', false).catch(e => expect(e).toBeInstanceOf(Error))
+    });
+  });
+
+  describe('await with an async test function', () => {
+    it('success', async () => {
+      expect(await asyncFunction('123')).toEqual('123 resolve')
+    });
+    it.skip('fail', async () => {
+      expect(await asyncFunction('123', false)).toEqual('123 resolve')
     });
   });
 });
