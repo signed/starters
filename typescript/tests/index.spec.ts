@@ -34,6 +34,18 @@ describe('testing async functions', () => {
     });
   });
 
+  describe('use promise support of expect', () => {
+    it('success', () => {
+      return expect(asyncFunction('123')).resolves.toEqual('123 resolve')
+    });
+    it.skip('fail', () => {
+      return expect(asyncFunction('123', false)).resolves.toEqual('123 resolve')
+    });
+    it('expect to fail', () => {
+      return expect(asyncFunction('123', false)).rejects.toBeInstanceOf(Error)
+    });
+  });
+
   describe('await with an async test function', () => {
     it('success', async () => {
       expect(await asyncFunction('123')).toEqual('123 resolve')
