@@ -55,3 +55,34 @@ describe('testing async functions', () => {
     });
   });
 });
+
+describe('matchers', () => {
+  it('equality and identity ', () => {
+    const actual = {one: 1, two: 2 };
+    expect(actual).toBe(actual);
+    let expected = {one: 1, two: 2};
+    expect(actual).not.toBe(expected);
+
+    expect(actual).toEqual(expected);
+  });
+
+  describe('for strings', () => {
+    it('contain', () => {
+      expect('hello you').toContain('o y');
+    });
+    it('match regex', () => {
+      expect('hello you').toMatch(/o y/);
+    });
+  });
+
+  describe('exceptions', () => {
+
+    const throwError = () => {
+      throw new Error('as ordered');
+    };
+
+    it('vanilla throw check ', () => {
+      expect(throwError).toThrow();
+    });
+  });
+});
