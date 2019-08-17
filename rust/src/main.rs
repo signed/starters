@@ -49,4 +49,10 @@ mod tests {
     fn fail_a_test() {
         panic!("Make this test fail");
     }
+
+    #[test]
+    #[should_panic]
+    fn check_for_panic() {
+        panic!("Make this test fail");
+    }
 }
