@@ -34,7 +34,7 @@ function reverse(string: string) {
   return string.split('').reverse().join('');
 }
 
-function munge(text: string) {
+function mungeSingleWord(text: string) {
   if (text.length < 4) {
     return text;
   }
@@ -43,6 +43,10 @@ function munge(text: string) {
   let center = text.slice(1, text.length - 1);
   let reversedCenter = reverse(center);
   return first + reversedCenter + last
+}
+
+function munge(text: string) {
+  return text.split(' ').map(mungeSingleWord ).join(' ');
 }
 
 describe('text munger', () => {
@@ -54,5 +58,8 @@ describe('text munger', () => {
   });
   it('should flip center of a four letter word', () => {
     expect(munge('abcd')).toBe('acbd')
+  });
+  it('should munge an entire text', () => {
+    expect(munge('this is a longer text')).toBe('tihs is a legnor txet');
   });
 });
