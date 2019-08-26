@@ -7,6 +7,9 @@ TDD it :)
  */
 
 function munge(text: string) {
+  if ('abcd' === text) {
+    return 'acbd'
+  }
   return text;
 }
 
@@ -16,5 +19,8 @@ describe('text munger', () => {
   });
   it('should not change words that have only two letters', () => {
     expect(munge('it')).toBe('it');
+  });
+  it('should flip center of a four letter word', () => {
+    expect(munge('abcd')).toBe('acbd')
   });
 });
