@@ -28,6 +28,22 @@ The cycle http://www.growing-object-oriented-software.com/figures.html
 /*
 Refactoring techniques
 1. Parallel Change
+1. Transformation Priority Premise https://blog.cleancoder.com/uncle-bob/2013/05/27/TheTransformationPriorityPremise.html
+ */
+
+/*
+1. outside in
+1. inside out
+ */
+
+/* To Read
+https://dzone.com/articles/tdd-example-in-software-development-part-i
+https://stanislaw.github.io/2016/01/25/notes-on-test-driven-development-by-example-by-kent-beck.html
+ */
+
+/*
+this was fun, want to do more
+http://www.codingdojo.org/KataCatalogue/
  */
 
 function reverse(string: string) {
