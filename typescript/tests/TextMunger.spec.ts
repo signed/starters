@@ -6,12 +6,15 @@ Whitespace, punctuation, numbers -- anything that isn't a word -- should also re
 TDD it :)
  */
 
-function munge(_text: string) {
-  return '';
+function munge(text: string) {
+  return text;
 }
 
 describe('text munger', () => {
   it('should not change the empty string', () => {
     expect(munge('')).toBe('');
+  });
+  it('should not change words that have only two letters', () => {
+    expect(munge('it')).toBe('it');
   });
 });
