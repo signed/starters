@@ -10,8 +10,15 @@ repositories {
 }
 
 dependencies {
-    "testImplementation"("org.junit.jupiter:junit-jupiter-api:5.5.2")
-    "testImplementation"("org.junit.jupiter:junit-jupiter-params:5.5.2")
-    "testImplementation"("org.assertj:assertj-core:3.13.2")
-    "testRuntimeOnly"("org.junit.jupiter:junit-jupiter-engine:5.5.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.5.2")
+    testImplementation("org.assertj:assertj-core:3.13.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
+}
+
+tasks.test {
+	useJUnitPlatform()
+	testLogging {
+		events("passed", "skipped", "failed")
+	}
 }
