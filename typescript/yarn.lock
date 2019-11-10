@@ -351,6 +351,11 @@
   dependencies:
     "@types/jest-diff" "*"
 
+"@types/lolex@3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@types/lolex/-/lolex-3.1.1.tgz#d40895223e5c8f8aa64f5500c6ca4eeab067d432"
+  integrity sha512-NU2qVtKxbt4IBvjEOW1QeUnV6KGUF6hpgJyvwZt3JrXe2qmwQF0+BiazQw+iFy9qL5ie+QHOxTzXkcvJUEh76g==
+
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
@@ -2164,6 +2169,11 @@ lodash@^4.17.13, lodash@^4.17.15:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+
+lolex@5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/lolex/-/lolex-5.1.1.tgz#9587144854511d27940ee5e113dcb7de9b0fd666"
+  integrity sha512-dEwHz1CJ8DsdgfpiimgQQEhEJYOEiJ69a0s4aJDNHajaTqOJuF34vBAWVa/sS0V8aQvt72p+KgQ3pRmEVJM+iA==
 
 loose-envify@^1.0.0:
   version "1.4.0"
