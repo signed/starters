@@ -25,9 +25,7 @@ describe('text input', () => {
     inputElement().addEventListener('keydown', (event: KeyboardEvent) => {
       console.log(event.key);
     });
-    //inputElement().setSelectionRange(2, 2);
     userEvent.type(inputElement(), 'one');
-    console.log(inputElement().selectionStart)
     userEvent.type(inputElement(), 'two');
     expect(inputElement()).toHaveValue('two');
   });
