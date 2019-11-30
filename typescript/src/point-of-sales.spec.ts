@@ -1,16 +1,17 @@
 import BigNumber from 'bignumber.js';
 
-type Package = 'day ticket' | '4 hours' | '2 hours';
+type Ticket = 'day ticket' | '4 hours' | '2 hours';
+
 type PaymentMethod = 'cash' | 'bath card 100' | 'bath card 200'| 'bath card 500';
 
-const entryFeeFor = (ticketType: Package) => {
-  if (ticketType === 'day ticket') {
+const entryFeeFor = (ticket: Ticket) => {
+  if (ticket === 'day ticket') {
     return 18;
   }
-  if (ticketType === '4 hours') {
+  if (ticket === '4 hours') {
     return 16;
   }
-  if (ticketType === '2 hours') {
+  if (ticket === '2 hours') {
     return 12;
   }
   throw new Error('should never be reached')
@@ -25,8 +26,8 @@ const reductionPercentage = (paymentMethod: PaymentMethod): number => {
   return map.get(paymentMethod) ?? 0;
 };
 
-const calculatePriceFor = (ticketType: Package, paymentMethod: PaymentMethod = 'cash'): number => {
-  const baseEntryFee: BigNumber = new BigNumber(entryFeeFor(ticketType));
+const calculatePriceFor = (ticket: Ticket, paymentMethod: PaymentMethod = 'cash'): number => {
+  const baseEntryFee: BigNumber = new BigNumber(entryFeeFor(ticket));
   if (paymentMethod === 'cash') {
     return baseEntryFee.toNumber();
   }
