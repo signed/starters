@@ -8,7 +8,7 @@ Your task is to calculate the price a visitor as to pay.
 - reduced price because of maintenance
 - back pay 1,20 per 30 minutes
 - renting towels and bathrobes
-  - bath rope 5,00 € (Pfand 30,- €)
+  - bathrobe 5,00 € (Pfand 30,- €)
   - sauna towel 3,00 € (Pfand 10,- €) 
   - people keep stealing 
 - gastronomy payment

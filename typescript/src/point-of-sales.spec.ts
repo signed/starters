@@ -1,8 +1,12 @@
 import BigNumber from 'bignumber.js';
 
 type Ticket = 'day ticket' | '4 hours' | '2 hours';
-
 type PaymentMethod = 'cash' | 'bath card 100' | 'bath card 200'| 'bath card 500';
+
+interface Order {
+  ticket: Ticket;
+  paymentMethod: PaymentMethod
+}
 
 const entryFeeFor = (ticket: Ticket) => {
   if (ticket === 'day ticket') {
@@ -27,12 +31,20 @@ const reductionPercentage = (paymentMethod: PaymentMethod): number => {
 };
 
 const calculatePriceFor = (ticket: Ticket, paymentMethod: PaymentMethod = 'cash'): number => {
-  const baseEntryFee: BigNumber = new BigNumber(entryFeeFor(ticket));
-  if (paymentMethod === 'cash') {
+  const order: Order = {
+    ticket,
+    paymentMethod
+  };
+  return calculatePriceForOrder(order);
+};
+
+function calculatePriceForOrder(order: Order) {
+  const baseEntryFee: BigNumber = new BigNumber(entryFeeFor(order.ticket));
+  if (order.paymentMethod === 'cash') {
     return baseEntryFee.toNumber();
   }
-  return baseEntryFee.multipliedBy(1 - reductionPercentage(paymentMethod)).toNumber()
-};
+  return baseEntryFee.multipliedBy(1 - reductionPercentage(order.paymentMethod)).toNumber();
+}
 
 it('basic cash prices', () => {
   expect(calculatePriceFor('2 hours')).toBe(12);
