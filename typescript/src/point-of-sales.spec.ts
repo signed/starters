@@ -1,11 +1,13 @@
 import BigNumber from 'bignumber.js';
 
 type Ticket = 'day ticket' | '4 hours' | '2 hours';
-type PaymentMethod = 'cash' | 'bath card 100' | 'bath card 200'| 'bath card 500';
+type PaymentMethod = 'cash' | 'bath card 100' | 'bath card 200' | 'bath card 500';
+type BathWear = 'bathrobe';
 
 interface Order {
   ticket: Ticket;
   paymentMethod: PaymentMethod
+  rent: BathWear[];
 }
 
 const entryFeeFor = (ticket: Ticket) => {
@@ -18,7 +20,7 @@ const entryFeeFor = (ticket: Ticket) => {
   if (ticket === '2 hours') {
     return 12;
   }
-  throw new Error('should never be reached')
+  throw new Error('should never be reached');
 };
 
 const reductionPercentage = (paymentMethod: PaymentMethod): number => {
@@ -33,17 +35,24 @@ const reductionPercentage = (paymentMethod: PaymentMethod): number => {
 const calculatePriceFor = (ticket: Ticket, paymentMethod: PaymentMethod = 'cash'): number => {
   const order: Order = {
     ticket,
-    paymentMethod
+    paymentMethod,
+    rent: []
   };
   return calculatePriceForOrder(order);
 };
 
+function rentalFeeFor(rent: BathWear[]) {
+  const rentalPrices: Map<BathWear, BigNumber> = new Map<BathWear, BigNumber>();
+  rentalPrices.set('bathrobe', new BigNumber(5));
+  return rent.map(bathWear => rentalPrices.get(bathWear)?? new BigNumber(0))
+    .reduce((acc, curr) => acc.plus(curr), new BigNumber(0));
+}
+
 function calculatePriceForOrder(order: Order) {
-  const baseEntryFee: BigNumber = new BigNumber(entryFeeFor(order.ticket));
-  if (order.paymentMethod === 'cash') {
-    return baseEntryFee.toNumber();
-  }
-  return baseEntryFee.multipliedBy(1 - reductionPercentage(order.paymentMethod)).toNumber();
+  const entryFee: BigNumber = new BigNumber(entryFeeFor(order.ticket));
+  const rentalFee: BigNumber = rentalFeeFor(order.rent);
+  const totalFee = entryFee.plus(rentalFee);
+  return totalFee.multipliedBy(1 - reductionPercentage(order.paymentMethod)).toNumber();
 }
 
 it('basic cash prices', () => {
@@ -51,6 +60,16 @@ it('basic cash prices', () => {
   expect(calculatePriceFor('4 hours')).toBe(16);
   expect(calculatePriceFor('day ticket')).toBe(18);
 });
+
+test('visitors can rent a bathrobe', () => {
+  const order: Order = {
+    ticket: '2 hours',
+    paymentMethod: 'cash',
+    rent: ['bathrobe']
+  };
+  expect(calculatePriceForOrder(order)).toBe(17);
+});
+
 
 test('a bath card 100 reduces entry fee by 10 %', () => {
   expect(calculatePriceFor('2 hours', 'bath card 100')).toBe(10.8);

@@ -16,6 +16,7 @@ Your task is to calculate the price a visitor as to pay.
 - recommendation about cheapest payment method
 - holidays no reduced pay
 - buying bath card and managing the balance
+- paying for a group of people
   
 ## Backend
 - clock per group where current time can be queried
