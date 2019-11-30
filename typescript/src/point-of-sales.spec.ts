@@ -11,16 +11,11 @@ interface Order {
 }
 
 const entryFeeFor = (ticket: Ticket): BigNumber => {
-  if (ticket === 'day ticket') {
-    return new BigNumber(18);
-  }
-  if (ticket === '4 hours') {
-    return new BigNumber(16);
-  }
-  if (ticket === '2 hours') {
-    return new BigNumber(12);
-  }
-  throw new Error('should never be reached');
+  const prices: Map<Ticket, BigNumber> = new Map<Ticket, BigNumber>();
+  prices.set('2 hours', new BigNumber(12));
+  prices.set('4 hours', new BigNumber(16));
+  prices.set('day ticket', new BigNumber(18));
+  return prices.get(ticket) ?? new BigNumber(0);
 };
 
 const reductionPercentage = (paymentMethod: PaymentMethod): number => {
