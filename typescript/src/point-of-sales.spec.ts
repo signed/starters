@@ -66,6 +66,7 @@ test('visitors can rent a bathrobe', () => {
   };
   expect(calculatePriceForOrder(order)).toBe(17);
 });
+
 test('visitors can rent a sauna towel', () => {
   const order: Order = {
     ticket: '2 hours',

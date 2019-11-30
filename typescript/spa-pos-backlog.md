@@ -17,6 +17,11 @@ Your task is to calculate the price a visitor as to pay.
 - holidays no reduced pay
 - buying bath card and managing the balance
 - paying for a group of people
+- voucher with 3rd party invoice after each day (day-end closing)
+
+## Twists
+### day-end closing to week-end closing
+Force to some sort of persistence or not being able to deploy during the week.  
   
 ## Backend
 - clock per group where current time can be queried
