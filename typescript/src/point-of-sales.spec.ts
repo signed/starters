@@ -14,13 +14,21 @@ const entryFeeFor = (ticketType: Package) => {
   throw new Error('should never be reached')
 };
 
+const reductionPercentage = (paymentMethod: PaymentMethod) => {
+  const map: Map<PaymentMethod, number> = new Map<PaymentMethod, number>();
+  map.set('cash', 0);
+  map.set('bath card 100', 0.1);
+  return map.get(paymentMethod) ?? 0;
+};
+
 const calculatePriceFor = (ticketType: Package, paymentMethod: PaymentMethod = 'cash') => {
   const baseEntryFee = entryFeeFor(ticketType);
   if (paymentMethod === 'cash') {
     return baseEntryFee;
   }
-  return baseEntryFee * 0.9;
+  return baseEntryFee * (1 - reductionPercentage(paymentMethod));
 };
+
 
 test('a bath card 100 reduces entry fee by 10 %', () => {
   expect(calculatePriceFor('2 hours', 'bath card 100')).toBe(10.8);
