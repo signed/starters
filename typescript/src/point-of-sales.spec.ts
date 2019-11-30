@@ -49,10 +49,11 @@ function rentalFeeFor(rent: BathWear[]) {
 }
 
 function calculatePriceForOrder(order: Order) {
-  const entryFee: BigNumber = new BigNumber(entryFeeFor(order.ticket));
+  const entryFee: BigNumber = new BigNumber(entryFeeFor(order.ticket))
+    .multipliedBy(1 - reductionPercentage(order.paymentMethod));
   const rentalFee: BigNumber = rentalFeeFor(order.rent);
   const totalFee = entryFee.plus(rentalFee);
-  return totalFee.multipliedBy(1 - reductionPercentage(order.paymentMethod)).toNumber();
+  return totalFee.toNumber();
 }
 
 it('basic cash prices', () => {
@@ -70,6 +71,14 @@ test('visitors can rent a bathrobe', () => {
   expect(calculatePriceForOrder(order)).toBe(17);
 });
 
+test('bath wear is not eligible for price reduction from bath cards', () => {
+  const order: Order = {
+    ticket: '2 hours',
+    paymentMethod: 'bath card 100',
+    rent: ['bathrobe']
+  };
+  expect(calculatePriceForOrder(order)).toBe(15.8);
+});
 
 test('a bath card 100 reduces entry fee by 10 %', () => {
   expect(calculatePriceFor('2 hours', 'bath card 100')).toBe(10.8);
