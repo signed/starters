@@ -16,6 +16,12 @@ Your task is to calculate the price a visitor as to pay.
   100 €	10 % reduction
   200 €	15 % reduction
   500 €	20 % reduction
+- holidays no reduced pay
+  
+## Backend
+- clock per group where current time can be queried
+- 
+
 
 # Backlog
 1. Basic pay 
@@ -27,4 +33,12 @@ Your task is to calculate the price a visitor as to pay.
 
 1. Early bird price
 
+1. 
+
+
+
+# potential backlog order
+## One
+1. Basic Pay
+1. Basic towel 
 1. 
