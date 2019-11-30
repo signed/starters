@@ -10,15 +10,15 @@ interface Order {
   rent: BathWear[];
 }
 
-const entryFeeFor = (ticket: Ticket) => {
+const entryFeeFor = (ticket: Ticket): BigNumber => {
   if (ticket === 'day ticket') {
-    return 18;
+    return new BigNumber(18);
   }
   if (ticket === '4 hours') {
-    return 16;
+    return new BigNumber(16);
   }
   if (ticket === '2 hours') {
-    return 12;
+    return new BigNumber(12);
   }
   throw new Error('should never be reached');
 };
@@ -49,8 +49,8 @@ function rentalFeeFor(rent: BathWear[]) {
 }
 
 function calculatePriceForOrder(order: Order) {
-  const entryFee: BigNumber = new BigNumber(entryFeeFor(order.ticket))
-    .multipliedBy(1 - reductionPercentage(order.paymentMethod));
+  const reduction = 1 - reductionPercentage(order.paymentMethod);
+  const entryFee: BigNumber = entryFeeFor(order.ticket).multipliedBy(reduction);
   const rentalFee: BigNumber = rentalFeeFor(order.rent);
   const totalFee = entryFee.plus(rentalFee);
   return totalFee.toNumber();
