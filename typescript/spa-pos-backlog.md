@@ -12,11 +12,8 @@ Your task is to calculate the price a visitor as to pay.
 - gastronomy payment
 - pay 2h stay 4h coupon
 - recommendation about cheapest payment method
-- upfront paid for price reduction
-  100 €	10 % reduction
-  200 €	15 % reduction
-  500 €	20 % reduction
 - holidays no reduced pay
+- buying bath card and managing the balance
   
 ## Backend
 - clock per group where current time can be queried
@@ -31,6 +28,9 @@ Your task is to calculate the price a visitor as to pay.
 - all day 18 €
 
 1. Upfront pay
+  100 €	10 % reduction
+  200 €	15 % reduction
+  500 €	20 % reduction
 
 1. Early bird price
 
