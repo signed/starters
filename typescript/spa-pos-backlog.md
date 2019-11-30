@@ -20,7 +20,8 @@ Your task is to calculate the price a visitor as to pay.
   
 ## Backend
 - clock per group where current time can be queried
-- 
+- message box where the spar workers communicate with you
+  - black list option for people abusing this type of messaging
 
 
 # Backlog
@@ -41,4 +42,4 @@ Your task is to calculate the price a visitor as to pay.
 ## One
 1. Basic Pay
 1. Basic towel 
-1. 
+1. upfront pay for entry fee reduction
