@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 type Ticket = 'day ticket' | '4 hours' | '2 hours';
 type PaymentMethod = 'cash' | 'bath card 100' | 'bath card 200' | 'bath card 500';
-type BathWear = 'bathrobe';
+type BathWear = 'bathrobe' | 'sauna towel';
 
 interface Order {
   ticket: Ticket;
@@ -39,6 +39,7 @@ const calculatePriceFor = (ticket: Ticket, paymentMethod: PaymentMethod = 'cash'
 function rentalFeeFor(rent: BathWear[]) {
   const rentalPrices: Map<BathWear, BigNumber> = new Map<BathWear, BigNumber>();
   rentalPrices.set('bathrobe', new BigNumber(5));
+  rentalPrices.set('sauna towel', new BigNumber(3));
   return rent.map(bathWear => rentalPrices.get(bathWear)?? new BigNumber(0))
     .reduce((acc, curr) => acc.plus(curr), new BigNumber(0));
 }
@@ -64,6 +65,14 @@ test('visitors can rent a bathrobe', () => {
     rent: ['bathrobe']
   };
   expect(calculatePriceForOrder(order)).toBe(17);
+});
+test('visitors can rent a sauna towel', () => {
+  const order: Order = {
+    ticket: '2 hours',
+    paymentMethod: 'cash',
+    rent: ['sauna towel']
+  };
+  expect(calculatePriceForOrder(order)).toBe(15);
 });
 
 test('bath wear is not eligible for price reduction from bath cards', () => {
