@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 
 type Package = 'day ticket' | '4 hours' | '2 hours';
-type PaymentMethod = 'cash' | 'bath card 100' | 'bath card 200';
+type PaymentMethod = 'cash' | 'bath card 100' | 'bath card 200'| 'bath card 500';
 
 const entryFeeFor = (ticketType: Package) => {
   if (ticketType === 'day ticket') {
@@ -21,6 +21,7 @@ const reductionPercentage = (paymentMethod: PaymentMethod): number => {
   map.set('cash', 0);
   map.set('bath card 100', 0.1);
   map.set('bath card 200', 0.15);
+  map.set('bath card 500', 0.2);
   return map.get(paymentMethod) ?? 0;
 };
 
@@ -48,4 +49,10 @@ test('a bath card 200 reduces entry fee by 15 %', () => {
   expect(calculatePriceFor('2 hours', 'bath card 200')).toBe(10.2);
   expect(calculatePriceFor('4 hours', 'bath card 200')).toBe(13.6);
   expect(calculatePriceFor('day ticket', 'bath card 200')).toBe(15.3);
+});
+
+test('a bath card 500 reduces entry fee by 20 %', () => {
+  expect(calculatePriceFor('2 hours', 'bath card 500')).toBe(9.6);
+  expect(calculatePriceFor('4 hours', 'bath card 500')).toBe(12.8);
+  expect(calculatePriceFor('day ticket', 'bath card 500')).toBe(14.4);
 });
