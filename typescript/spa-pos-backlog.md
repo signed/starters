@@ -21,7 +21,9 @@ Your task is to calculate the price a visitor as to pay.
 
 ## Twists
 ### day-end closing to week-end closing
-Force to some sort of persistence or not being able to deploy during the week.  
+Force to some sort of persistence or not being able to deploy during the week.
+### planed revision time at the end of the year
+All price reduced by 10%, stacks with bath cards.
   
 ## Backend
 - clock per group where current time can be queried
