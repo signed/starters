@@ -29,6 +29,7 @@ All price reduced by 10%, stacks with bath cards.
 - clock per group where current time can be queried
 - message box where the spar workers communicate with you
   - black list option for people abusing this type of messaging
+- send an id for each user
 
 
 # Backlog

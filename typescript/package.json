@@ -41,6 +41,8 @@
     "collectCoverage": true
   },
   "dependencies": {
-    "bignumber.js": "9.0.0"
+    "@types/luxon": "1.21.0",
+    "bignumber.js": "9.0.0",
+    "luxon": "1.21.3"
   }
 }
