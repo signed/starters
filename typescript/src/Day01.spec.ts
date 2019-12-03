@@ -9,7 +9,7 @@ const naiveFullCalculator = (mass: BigNumber) => {
   return fullRequired;
 };
 
-const considerWeigtOfAddedFuel = (mass: BigNumber) => {
+const considerWeightOfAddedFuel = (mass: BigNumber) => {
   let currentMass = naiveFullCalculator(mass);
   const masses = [];
   while (currentMass != 0) {
@@ -36,7 +36,7 @@ test('day 01 challenge ', () => {
 });
 
 test('day 01 challenge fuel has weight too ', () => {
-  expect(fuelForVoyage(considerWeigtOfAddedFuel)).toBe(5230169);
+  expect(fuelForVoyage(considerWeightOfAddedFuel)).toBe(5230169);
 });
 
 test('day one samples', () => {
@@ -47,7 +47,7 @@ test('day one samples', () => {
 });
 
 test('day one fuel has mass too', () => {
-  expect(considerWeigtOfAddedFuel(new BigNumber(14))).toBe(2);
-  expect(considerWeigtOfAddedFuel(new BigNumber(1969))).toBe(966);
-  expect(considerWeigtOfAddedFuel(new BigNumber(100756))).toBe(50346);
+  expect(considerWeightOfAddedFuel(new BigNumber(14))).toBe(2);
+  expect(considerWeightOfAddedFuel(new BigNumber(1969))).toBe(966);
+  expect(considerWeightOfAddedFuel(new BigNumber(100756))).toBe(50346);
 });
