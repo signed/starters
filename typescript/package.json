@@ -33,6 +33,7 @@
     "testEnvironment": "jsdom",
     "roots": [
       "<rootDir>/tests"
+      "<rootDir>/src"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/tests/setup.ts"
