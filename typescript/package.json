@@ -13,6 +13,7 @@
     "@testing-library/user-event": "7.1.2",
     "@types/jest": "24.0.23",
     "@types/lolex": "5.1.0",
+    "@types/node": "12.12.14",
     "jest": "24.9.0",
     "lolex": "5.1.1",
     "ts-jest": "24.2.0",
@@ -39,5 +40,9 @@
       "<rootDir>/tests/setup.ts"
     ],
     "collectCoverage": true
+  },
+  "dependencies": {
+    "@types/bignumber.js": "5.0.0",
+    "bignumber.js": "9.0.0"
   }
 }
