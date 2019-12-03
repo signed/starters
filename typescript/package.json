@@ -33,7 +33,6 @@
     "preset": "ts-jest",
     "testEnvironment": "jsdom",
     "roots": [
-      "<rootDir>/tests",
       "<rootDir>/src"
     ],
     "setupFilesAfterEnv": [
