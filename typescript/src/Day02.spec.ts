@@ -31,16 +31,33 @@ beforeAll(()=> {
 function calculate(verb: number, noun: number) {
   const program = [...masterProgram];
   program[1] = verb;
-  program[noun] = noun;
+  program[2] = noun;
   const finalState = runProgram(program);
   return finalState[0];
 }
 
-test('day 01 challenge', () => {
+test('day 02 challenge', () => {
   expect(calculate(12, 2)).toEqual(6327510);
 });
 
-test('should ', () => {
+test('day 02 challenge part 2', () => {
+  expect(calculate(41, 12)).toEqual(19690720)
+});
+
+test.skip('brute force ', () => {
+  for (let verb = 0; verb < 100; verb++) {
+    console.log('verb ' + verb);
+    for (let noun = 0; noun < 100; noun++) {
+      const result = calculate(verb, noun);
+      if (result === 19690720) {
+        console.log(`${verb} ${noun}`);
+        return;
+      }
+    }
+  }
+});
+
+test('example programs ', () => {
   expect(runProgram([1, 0, 0, 0, 99])).toEqual([2, 0, 0, 0, 99]);
   expect(runProgram([2, 3, 0, 3, 99])).toEqual([2, 3, 0, 6, 99]);
   expect(runProgram([2, 4, 4, 5, 99, 0])).toEqual([2, 4, 4, 5, 99, 9801]);
