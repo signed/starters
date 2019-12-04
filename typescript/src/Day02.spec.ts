@@ -21,13 +21,23 @@ const runProgram = (numbers: number[]): number[] => {
   }
 };
 
-test('day 01 challenge', () => {
+let masterProgram: number[];
+
+beforeAll(()=> {
   const input = readFileSync(__dirname + '/Day02.input.csv', 'utf8');
-  const program = input.split(',').map(character => parseInt(character, 10));
-  program[1] = 12;
-  program[2] = 2;
-  const result = runProgram(program);
-  expect(result[0]).toEqual(6327510);
+  masterProgram = input.split(',').map(character => parseInt(character, 10));
+});
+
+function calculate(verb: number, noun: number) {
+  const program = [...masterProgram];
+  program[1] = verb;
+  program[noun] = noun;
+  const finalState = runProgram(program);
+  return finalState[0];
+}
+
+test('day 01 challenge', () => {
+  expect(calculate(12, 2)).toEqual(6327510);
 });
 
 test('should ', () => {
