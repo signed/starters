@@ -30,7 +30,6 @@ function fuelForVoyage(fuelCalculator: FuelCalculator) {
     .reduce((acc, cur) => acc + cur, 0);
 }
 
-
 test('day 01 challenge ', () => {
   expect(fuelForVoyage(naiveFullCalculator)).toBe(3488702);
 });
