@@ -54,7 +54,7 @@ function lineCoordinates(parsed: [string, number][]) {
 
 const manhattanDistanceToOrigin = (coordinate: Coordinate) => Math.abs(coordinate.x) + Math.abs(coordinate.y);
 
-const calc = (one: string, two: string) => {
+const calcDistanceOfIntersectionsClosesToTheCentralPort = (one: string, two: string) => {
   const parsed = parse(one);
   console.log('parsed one');
   const lineOneCoordinates = lineCoordinates(parsed);
@@ -71,27 +71,53 @@ const calc = (one: string, two: string) => {
   console.log(distances);
   return Math.min(...distances);
 };
+const calcStepsToTheFirstIntersection = (one: string, two: string) => {
+  const parsed = parse(one);
+  console.log('parsed one');
+  const lineOneCoordinates = lineCoordinates(parsed);
+  console.log('line one coordinates: ' + lineOneCoordinates.length);
+
+  const parsedTwo = parse(two);
+  console.log('parsed two');
+  const lineTwoCoordinates = lineCoordinates(parsedTwo);
+  console.log('line two coordinates: ' + lineTwoCoordinates.length);
+
+  const sameCoordinate = (lhs: Coordinate, rhs: Coordinate) => lhs.y === rhs.y && lhs.x === rhs.x;
+  const coordinatesInBoothLines = lineOneCoordinates.filter(coordinate => lineTwoCoordinates.filter((other) => sameCoordinate(coordinate, other)).length > 0);
+  const firstIntersection = coordinatesInBoothLines.filter(coordinate => !sameCoordinate({ x: 0, y: 0 }, coordinate))[0];
+  const stepsOnLineOne = lineOneCoordinates.findIndex((value) => sameCoordinate(value, firstIntersection));
+  const stepsOnLineTwo = lineTwoCoordinates.findIndex((value) => sameCoordinate(value, firstIntersection));
+  return stepsOnLineOne + stepsOnLineTwo;
+};
 
 test('challenge part 1', () => {
-  expect(calc(lineOne, lineTwo)).toEqual(1285);
+  expect(calcDistanceOfIntersectionsClosesToTheCentralPort(lineOne, lineTwo)).toEqual(1285);
+});
+
+test('challenge part 2', () => {
+  expect(calcStepsToTheFirstIntersection(lineOne, lineTwo)).toEqual(14228);
 });
 
 test('sample one', () => {
   const one = 'R8,U5,L5,D3';
   const two = 'U7,R6,D4,L4';
-  expect(calc(one, two)).toEqual(6);
+  expect(calcDistanceOfIntersectionsClosesToTheCentralPort(one, two)).toEqual(6);
+
+  expect(calcStepsToTheFirstIntersection(one, two)).toEqual(30);
 });
 
 test('sample two ', () => {
   const one = 'R75,D30,R83,U83,L12,D49,R71,U7,L72';
   const two = 'U62,R66,U55,R34,D71,R55,D58,R83';
 
-  expect(calc(one, two)).toEqual(159);
+  expect(calcDistanceOfIntersectionsClosesToTheCentralPort(one, two)).toEqual(159);
+  expect(calcStepsToTheFirstIntersection(one, two)).toEqual(610);
 });
 
 test('sample three', () => {
   const one = 'R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51';
   const two = 'U98,R91,D20,R16,D67,R40,U7,R15,U6,R7';
 
-  expect(calc(one, two)).toEqual(135);
+  expect(calcDistanceOfIntersectionsClosesToTheCentralPort(one, two)).toEqual(135);
+  expect(calcStepsToTheFirstIntersection(one, two)).toEqual(410);
 });
