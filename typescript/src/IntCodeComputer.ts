@@ -1,4 +1,4 @@
-type CommandExecutor = (fst: number, snd: number, instructionPointer:InstructionPointer, memory:Memory) => number;
+type OperationExecutor = (instructionPointer: InstructionPointer, memory: Memory) => number;
 
 
 enum Opcode {
@@ -7,15 +7,33 @@ enum Opcode {
   ENDED = 99,
 }
 
-const operations: Map<Opcode, CommandExecutor> = new Map<number, CommandExecutor>();
+const operations = new Map<Opcode, OperationExecutor>();
 
 // 1 reg1 reg2 dest-reg
-operations.set(Opcode.ADD, (fst, snd, instructionPointer, memory) => {
-  instructionPointer.advance(4);
+operations.set(Opcode.ADD, (instructionPointer, memory) => {
+  const start = instructionPointer.current;
+  const end = start + 3;
+  const command = memory.slice(start, end);
+  const fstAddress = command[0];
+  const sndAddress = command[1];
+  const destinationAddress = command[2];
+  const fst = memory[fstAddress];
+  const snd = memory[sndAddress];
+  memory[destinationAddress] = fst + snd;
+  instructionPointer.advance(3);
   return fst + snd;
 });
-operations.set(Opcode.MULTIPLY, (fst, snd, instructionPointer, memory) => {
-  instructionPointer.advance(4);
+operations.set(Opcode.MULTIPLY, (instructionPointer, memory) => {
+  const start = instructionPointer.current;
+  const end = start + 3;
+  const command = memory.slice(start, end);
+  const fstAddress = command[0];
+  const sndAddress = command[1];
+  const destinationAddress = command[2];
+  const fst = memory[fstAddress];
+  const snd = memory[sndAddress];
+  memory[destinationAddress] = fst * snd;
+  instructionPointer.advance(3);
   return fst * snd;
 });
 
@@ -27,7 +45,7 @@ class InstructionPointer {
   }
 }
 
-type Program = number[];
+type Program = number [];
 type Memory = number [];
 
 export class IntCodeComputer {
@@ -37,18 +55,11 @@ export class IntCodeComputer {
     const instructionPointer = new InstructionPointer();
     while (true) {
       const operationCode = memory[instructionPointer.current];
+      instructionPointer.advance(1);
       if (Opcode.ENDED === operationCode) {
         return memory;
       }
-
-      const start = instructionPointer.current;
-      const end = start + 4;
-      const command = memory.slice(start, end);
-      const fstAddress = command[1];
-      const sndAddress = command[2];
-      const destinationAddress = command[3];
-      memory[destinationAddress] = operations.get(operationCode)!(memory[fstAddress], memory[sndAddress], instructionPointer, memory);
+      operations.get(operationCode)!(instructionPointer, memory);
     }
   };
-
 }
