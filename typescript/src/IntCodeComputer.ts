@@ -181,10 +181,10 @@ class InstructionPointer {
   }
 }
 
-type Program = number [];
 type Memory = number [];
-type Input = number [];
-type Output = number [];
+export type Program = number [];
+export type Input = number [];
+export type Output = number [];
 
 class MachineContext {
   input: Input = [];
