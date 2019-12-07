@@ -52,27 +52,24 @@ export const enum ParameterMode {
 
 const operations = new Map<Opcode, OperationExecutor>();
 
+const adjustForOpcode = (index: number) => index - 1;
+
 class Command {
   private readonly codes: number[];
-  private readonly codes2: number[];
-  private readonly length: number;
 
   constructor(
     private readonly parameterAndOpcode: ParameterAndOpcode,
     private readonly machineContext: MachineContext,
-    length: number
+    private readonly length: number
   ) {
-    this.length = length;
-    const start = machineContext.instructionPointer.current + 1;
+    const start = machineContext.instructionPointer.current;
     const end = start + this.length;
     this.codes = machineContext.memory.slice(start, end);
-    this.codes2 = machineContext.memory.slice(start - 1, end);
-
   }
 
   argument(index: number) {
     const addressOrValue = this.codes[index];
-    const mode = this.parameterAndOpcode.parameterMode(index);
+    const mode = this.parameterAndOpcode.parameterMode(adjustForOpcode(index));
     if (ParameterMode.Immediate === mode) {
       return addressOrValue;
     }
@@ -104,69 +101,69 @@ class Command {
   }
 
   completed() {
-    this.machineContext.instructionPointer.advance(this.length + 1);
+    this.machineContext.instructionPointer.advance(this.length);
   }
 }
 
 // 1 reg1 reg2 dest-reg
 operations.set(Opcode.ADD, (parameterAndOpcode, machineContext) => {
-  const command = new Command(parameterAndOpcode, machineContext, 3);
-  const fst = command.argument(0);
-  const snd = command.argument(1);
-  command.writeAt(2, fst + snd);
+  const command = new Command(parameterAndOpcode, machineContext, 4);
+  const fst = command.argument(1);
+  const snd = command.argument(2);
+  command.writeAt(3, fst + snd);
   command.completed();
 });
 operations.set(Opcode.MULTIPLY, (parameterAndOpcode, machineContext) => {
-  const command = new Command(parameterAndOpcode, machineContext, 3);
-  const fst = command.argument(0);
-  const snd = command.argument(1);
-  command.writeAt(2, fst * snd);
+  const command = new Command(parameterAndOpcode, machineContext, 4);
+  const fst = command.argument(1);
+  const snd = command.argument(2);
+  command.writeAt(3, fst * snd);
   command.completed();
 });
 operations.set(Opcode.INPUT, (parameterAndOpcode, machineContext) => {
-  const command = new Command(parameterAndOpcode, machineContext, 1);
+  const command = new Command(parameterAndOpcode, machineContext, 2);
   const input = command.nextInput();
-  command.writeAt(0, input);
+  command.writeAt(1, input);
   command.completed();
 });
 operations.set(Opcode.OUTPUT, (parameterAndOpcode, machineContext) => {
-  const command = new Command(parameterAndOpcode, machineContext, 1);
-  const output = command.argument(0);
+  const command = new Command(parameterAndOpcode, machineContext, 2);
+  const output = command.argument(1);
   command.writeOutput(output);
   command.completed();
 });
 operations.set(Opcode.JUMP_IF_TRUE, (parameterAndOpcode, machineContext) => {
-  const command = new Command(parameterAndOpcode, machineContext, 2);
-  const argument = command.argument(0);
+  const command = new Command(parameterAndOpcode, machineContext, 3);
+  const argument = command.argument(1);
   if (argument !== 0) {
-    command.jumpTo(command.argument(1));
+    command.jumpTo(command.argument(2));
   } else {
     command.completed();
   }
 });
 operations.set(Opcode.JUMP_IF_FALSE, (parameterAndOpcode, machineContext) => {
-  const command = new Command(parameterAndOpcode, machineContext, 2);
-  const argument = command.argument(0);
+  const command = new Command(parameterAndOpcode, machineContext, 3);
+  const argument = command.argument(1);
   if (argument === 0) {
-    command.jumpTo(command.argument(1));
+    command.jumpTo(command.argument(2));
   } else {
     command.completed();
   }
 });
 operations.set(Opcode.LESS_THEN, (parameterAndOpcode, machineContext) => {
-  const command = new Command(parameterAndOpcode, machineContext, 3);
-  const first = command.argument(0);
-  const second = command.argument(1);
+  const command = new Command(parameterAndOpcode, machineContext, 4);
+  const first = command.argument(1);
+  const second = command.argument(2);
   const valueToWrite = first < second ? 1 : 0;
-  command.writeAt(2, valueToWrite);
+  command.writeAt(3, valueToWrite);
   command.completed();
 });
 operations.set(Opcode.EQUALS, (parameterAndOpcode, machineContext) => {
-  const command = new Command(parameterAndOpcode, machineContext, 3);
-  const first = command.argument(0);
-  const second = command.argument(1);
+  const command = new Command(parameterAndOpcode, machineContext, 4);
+  const first = command.argument(1);
+  const second = command.argument(2);
   const valueToWrite = first === second ? 1 : 0;
-  command.writeAt(2, valueToWrite);
+  command.writeAt(3, valueToWrite);
   command.completed();
 });
 
