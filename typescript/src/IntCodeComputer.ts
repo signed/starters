@@ -1,16 +1,21 @@
 type OperationExecutor = (context: MachineContext) => number;
 
-
-enum Opcode {
+export const enum Opcode {
   ADD = 1,
   MULTIPLY = 2,
   ENDED = 99,
 }
 
+// writes will never be in immediate mode
+export const enum ParameterMode {
+  Position = 0,
+  Immediate = 1,
+}
+
 const operations = new Map<Opcode, OperationExecutor>();
 
 // 1 reg1 reg2 dest-reg
-operations.set(Opcode.ADD, ({instructionPointer, memory}) => {
+operations.set(Opcode.ADD, ({ instructionPointer, memory }) => {
   const start = instructionPointer.current;
   const end = start + 3;
   const command = memory.slice(start, end);
@@ -23,7 +28,7 @@ operations.set(Opcode.ADD, ({instructionPointer, memory}) => {
   instructionPointer.advance(3);
   return fst + snd;
 });
-operations.set(Opcode.MULTIPLY, ({instructionPointer, memory}) => {
+operations.set(Opcode.MULTIPLY, ({ instructionPointer, memory }) => {
   const start = instructionPointer.current;
   const end = start + 3;
   const command = memory.slice(start, end);
@@ -54,17 +59,46 @@ type Memory = number [];
 type Input = number [];
 type Output = number [];
 
-class MachineContext{
+class MachineContext {
   input: Input = [];
   output: Output = [];
   instructionPointer = new InstructionPointer();
   memory: Memory = [];
 
-  initialize(program: Program){
+  initialize(program: Program) {
     this.input = [];
     this.output = [];
     this.instructionPointer.reset();
     this.memory = [...program];
+  }
+}
+
+export class ParameterAndOpcode {
+  private readonly digits: string[];
+  private readonly parameterModes: string[];
+
+  constructor(private readonly raw: number) {
+    this.digits = this.raw.toString(10).split('');
+    this.parameterModes = this.digits.slice(0, -2).reverse();
+  }
+
+  opcode() {
+    const opcode = parseInt(this.digits.slice(-2).join(''), 10);
+    switch (opcode) {
+      case 1:
+        return Opcode.ADD;
+      case 2:
+        return Opcode.MULTIPLY;
+      case 99:
+        return Opcode.ENDED;
+      default:
+        throw Error('unknown Opcode ' + opcode);
+    }
+  }
+
+  parameterMode(number: number) {
+    const parameterModeAsString = this.parameterModes[number] ?? '0';
+    return parameterModeAsString === '0' ? ParameterMode.Position : ParameterMode.Immediate;
   }
 }
 
