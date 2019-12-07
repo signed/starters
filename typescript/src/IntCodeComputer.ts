@@ -1,4 +1,4 @@
-type OperationExecutor = (parameterAndOpcode: ParameterAndOpcode, context: MachineContext) => number;
+type OperationExecutor = (parameterAndOpcode: ParameterAndOpcode, context: MachineContext) => void;
 
 export const enum Opcode {
   ADD = 1,
@@ -26,20 +26,35 @@ operations.set(Opcode.ADD, (parameterAndOpcode, { instructionPointer, memory }) 
   const snd = memory[sndAddress];
   memory[destinationAddress] = fst + snd;
   instructionPointer.advance(3);
-  return fst + snd;
 });
-operations.set(Opcode.MULTIPLY, (parameterAndOpcode, { instructionPointer, memory }) => {
-  const start = instructionPointer.current;
-  const end = start + 3;
-  const command = memory.slice(start, end);
-  const fstAddress = command[0];
-  const sndAddress = command[1];
-  const destinationAddress = command[2];
-  const fst = memory[fstAddress];
-  const snd = memory[sndAddress];
-  memory[destinationAddress] = fst * snd;
-  instructionPointer.advance(3);
-  return fst * snd;
+
+class Command{
+  private readonly codes: number[];
+  constructor(private readonly parameterAndOpcode: ParameterAndOpcode, private readonly machineContext: MachineContext, length: number) {
+    const start = machineContext.instructionPointer.current;
+    const end = start + length;
+    this.codes =  machineContext.memory.slice(start, end);
+  }
+
+  argument(index: number) {
+    const addressOrValue = this.codes[index];
+    const mode = this.parameterAndOpcode.parameterMode(index);
+    if (ParameterMode.Immediate === mode) {
+      return addressOrValue;
+    }
+    return this.machineContext.memory[addressOrValue];
+  }
+
+  writeAt(number: number, value: number) {
+    this.machineContext.memory[this.codes[number]] = value;
+  }
+}
+operations.set(Opcode.MULTIPLY, (parameterAndOpcode, machineContext) => {
+  const command = new Command(parameterAndOpcode, machineContext, 3);
+  const fst = command.argument(0);
+  const snd = command.argument(1);
+  command.writeAt(2, fst * snd);
+  machineContext.instructionPointer.advance(3);
 });
 
 class InstructionPointer {
