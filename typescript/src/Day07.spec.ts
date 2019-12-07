@@ -1,5 +1,5 @@
 // http://homepage.math.uiowa.edu/~goodman/22m150.dir/2007/Permutation%20Generation%20Methods.pdf
-import { IntCodeComputer, loadIntProgramAt, Program } from './IntCodeComputer';
+import { loadIntProgramAt, Program, runProgram } from './IntCodeComputer';
 
 const permute = (input: number []): number[][] => {
   const length = input.length;
@@ -33,8 +33,7 @@ beforeAll(() => {
 
 const runThrusterConfiguration = (program: Program, thrusterConfiguration: number[]): number => {
   return thrusterConfiguration.reduce((outputFromPreviousThruster, thrusterInput) => {
-    const thrusterOne = new IntCodeComputer();
-    thrusterOne.runProgram(program, [thrusterInput, outputFromPreviousThruster]);
+    const thrusterOne = runProgram(program, [thrusterInput, outputFromPreviousThruster]);
     return thrusterOne.output()[0];
   }, 0);
 };

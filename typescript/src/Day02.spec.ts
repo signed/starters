@@ -1,18 +1,15 @@
-import { IntCodeComputer, loadIntProgramAt } from './IntCodeComputer';
+import { loadIntProgramAt, runProgram } from './IntCodeComputer';
 
 let masterProgram: number[];
 beforeAll(() => {
   masterProgram = loadIntProgramAt('Day02');
 });
 
-const computer = new IntCodeComputer();
-
 function calculate(verb: number, noun: number) {
   const program = [...masterProgram];
   program[1] = verb;
   program[2] = noun;
-  computer.runProgram(program);
-  return computer.memory()[0];
+  return runProgram(program).memory()[0];
 }
 
 test('day 02 challenge', () => {
@@ -35,8 +32,7 @@ test.skip('brute force ', () => {
 });
 
 function runAndReturnMemory(program: number[]) {
-  computer.runProgram(program);
-  return computer.memory();
+  return runProgram(program).memory();
 }
 
 test('example programs ', () => {

@@ -221,14 +221,16 @@ export class ParameterAndOpcode {
   }
 }
 
+export const runProgram = (program: Program, input: Input = []): IntCodeComputer => {
+  const computer = new IntCodeComputer();
+  computer.load(program);
+  computer.addInput(input);
+  computer.execute();
+  return computer;
+};
+
 export class IntCodeComputer {
   private readonly context = new MachineContext();
-
-  runProgram(program: Program, input: Input = []): void {
-    this.load(program);
-    this.addInput(input);
-    this.execute();
-  };
 
   execute() {
     while (true) {
@@ -241,7 +243,7 @@ export class IntCodeComputer {
     }
   }
 
-  load(program: number[]) {
+  load(program: Program) {
     this.context.initialize(program);
   }
 
