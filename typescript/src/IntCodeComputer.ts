@@ -55,7 +55,11 @@ const operations = new Map<Opcode, OperationExecutor>();
 class Command {
   private readonly codes: number[];
 
-  constructor(private readonly parameterAndOpcode: ParameterAndOpcode, private readonly machineContext: MachineContext, length: number) {
+  constructor(
+    private readonly parameterAndOpcode: ParameterAndOpcode,
+    private readonly machineContext: MachineContext,
+    private readonly length: number
+  ) {
     const start = machineContext.instructionPointer.current;
     const end = start + length;
     this.codes = machineContext.memory.slice(start, end);
@@ -89,6 +93,14 @@ class Command {
   writeOutput(output: number) {
     this.machineContext.output.push(output);
   }
+
+  jumpTo(index: number) {
+    this.machineContext.instructionPointer.jumpTo(index);
+  }
+
+  completed() {
+    this.machineContext.instructionPointer.advance(this.length);
+  }
 }
 
 // 1 reg1 reg2 dest-reg
@@ -97,43 +109,43 @@ operations.set(Opcode.ADD, (parameterAndOpcode, machineContext) => {
   const fst = command.argument(0);
   const snd = command.argument(1);
   command.writeAt(2, fst + snd);
-  machineContext.instructionPointer.advance(3);
+  command.completed();
 });
 operations.set(Opcode.MULTIPLY, (parameterAndOpcode, machineContext) => {
   const command = new Command(parameterAndOpcode, machineContext, 3);
   const fst = command.argument(0);
   const snd = command.argument(1);
   command.writeAt(2, fst * snd);
-  machineContext.instructionPointer.advance(3);
+  command.completed();
 });
 operations.set(Opcode.INPUT, (parameterAndOpcode, machineContext) => {
   const command = new Command(parameterAndOpcode, machineContext, 1);
   const input = command.nextInput();
   command.writeAt(0, input);
-  machineContext.instructionPointer.advance(1);
+  command.completed();
 });
 operations.set(Opcode.OUTPUT, (parameterAndOpcode, machineContext) => {
   const command = new Command(parameterAndOpcode, machineContext, 1);
   const output = command.argument(0);
   command.writeOutput(output);
-  machineContext.instructionPointer.advance(1);
+  command.completed();
 });
 operations.set(Opcode.JUMP_IF_TRUE, (parameterAndOpcode, machineContext) => {
   const command = new Command(parameterAndOpcode, machineContext, 2);
   const argument = command.argument(0);
   if (argument !== 0) {
-    machineContext.instructionPointer.jumpTo(command.argument(1));
+    command.jumpTo(command.argument(1));
   } else {
-    machineContext.instructionPointer.advance(2);
+    command.completed();
   }
 });
 operations.set(Opcode.JUMP_IF_FALSE, (parameterAndOpcode, machineContext) => {
   const command = new Command(parameterAndOpcode, machineContext, 2);
   const argument = command.argument(0);
   if (argument === 0) {
-    machineContext.instructionPointer.jumpTo(command.argument(1));
+    command.jumpTo(command.argument(1));
   } else {
-    machineContext.instructionPointer.advance(2);
+    command.completed();
   }
 });
 operations.set(Opcode.LESS_THEN, (parameterAndOpcode, machineContext) => {
@@ -142,7 +154,7 @@ operations.set(Opcode.LESS_THEN, (parameterAndOpcode, machineContext) => {
   const second = command.argument(1);
   const valueToWrite = first < second ? 1 : 0;
   command.writeAt(2, valueToWrite);
-  machineContext.instructionPointer.advance(3);
+  command.completed();
 });
 operations.set(Opcode.EQUALS, (parameterAndOpcode, machineContext) => {
   const command = new Command(parameterAndOpcode, machineContext, 3);
@@ -150,7 +162,7 @@ operations.set(Opcode.EQUALS, (parameterAndOpcode, machineContext) => {
   const second = command.argument(1);
   const valueToWrite = first === second ? 1 : 0;
   command.writeAt(2, valueToWrite);
-  machineContext.instructionPointer.advance(3);
+  command.completed();
 });
 
 class InstructionPointer {

@@ -56,31 +56,22 @@ const manhattanDistanceToOrigin = (coordinate: Coordinate) => Math.abs(coordinat
 
 const calcDistanceOfIntersectionsClosesToTheCentralPort = (one: string, two: string) => {
   const parsed = parse(one);
-  console.log('parsed one');
   const lineOneCoordinates = lineCoordinates(parsed);
-  console.log('line one coordinates: ' + lineOneCoordinates.length);
 
   const parsedTwo = parse(two);
-  console.log('parsed two');
   const lineTwoCoordinates = lineCoordinates(parsedTwo);
-  console.log('line two coordinates: ' + lineTwoCoordinates.length);
 
   const sameCoordinate = (lhs: Coordinate, rhs: Coordinate) => lhs.y === rhs.y && lhs.x === rhs.x;
   const coordinatesInBoothLines = lineOneCoordinates.filter(coordinate => lineTwoCoordinates.filter((other) => sameCoordinate(coordinate, other)).length > 0);
   const distances = coordinatesInBoothLines.filter(coordinate => !sameCoordinate({ x: 0, y: 0 }, coordinate)).map(manhattanDistanceToOrigin);
-  console.log(distances);
   return Math.min(...distances);
 };
 const calcStepsToTheFirstIntersection = (one: string, two: string) => {
   const parsed = parse(one);
-  console.log('parsed one');
   const lineOneCoordinates = lineCoordinates(parsed);
-  console.log('line one coordinates: ' + lineOneCoordinates.length);
 
   const parsedTwo = parse(two);
-  console.log('parsed two');
   const lineTwoCoordinates = lineCoordinates(parsedTwo);
-  console.log('line two coordinates: ' + lineTwoCoordinates.length);
 
   const sameCoordinate = (lhs: Coordinate, rhs: Coordinate) => lhs.y === rhs.y && lhs.x === rhs.x;
   const coordinatesInBoothLines = lineOneCoordinates.filter(coordinate => lineTwoCoordinates.filter((other) => sameCoordinate(coordinate, other)).length > 0);
