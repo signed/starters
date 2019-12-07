@@ -3,6 +3,8 @@ type OperationExecutor = (parameterAndOpcode: ParameterAndOpcode, context: Machi
 export const enum Opcode {
   ADD = 1,
   MULTIPLY = 2,
+  INPUT = 3,
+  OUTPUT = 4,
   ENDED = 99,
 }
 
@@ -14,12 +16,13 @@ export const enum ParameterMode {
 
 const operations = new Map<Opcode, OperationExecutor>();
 
-class Command{
+class Command {
   private readonly codes: number[];
+
   constructor(private readonly parameterAndOpcode: ParameterAndOpcode, private readonly machineContext: MachineContext, length: number) {
     const start = machineContext.instructionPointer.current;
     const end = start + length;
-    this.codes =  machineContext.memory.slice(start, end);
+    this.codes = machineContext.memory.slice(start, end);
   }
 
   argument(index: number) {
@@ -31,8 +34,24 @@ class Command{
     return this.machineContext.memory[addressOrValue];
   }
 
-  writeAt(number: number, value: number) {
-    this.machineContext.memory[this.codes[number]] = value;
+  writeAt(index: number, value: number) {
+    if (index >= this.codes.length) {
+      throw new Error('accessing out of scope')
+    }
+    const memoryAddress = this.codes[index];
+    this.machineContext.memory[memoryAddress] = value;
+  }
+
+  nextInput(): number {
+    const shift = this.machineContext.input.shift();
+    if (shift === undefined) {
+      throw new Error('no more input left');
+    }
+    return shift;
+  }
+
+  writeOutput(output: number) {
+    this.machineContext.output.push(output);
   }
 }
 
@@ -51,6 +70,20 @@ operations.set(Opcode.MULTIPLY, (parameterAndOpcode, machineContext) => {
   command.writeAt(2, fst * snd);
   machineContext.instructionPointer.advance(3);
 });
+operations.set(Opcode.INPUT, (parameterAndOpcode, machineContext) => {
+  const command = new Command(parameterAndOpcode, machineContext, 1);
+  const input = command.nextInput();
+  command.writeAt(0, input);
+  machineContext.instructionPointer.advance(1);
+  console.log(machineContext.memory);
+});
+operations.set(Opcode.OUTPUT, (parameterAndOpcode, machineContext) => {
+  const command = new Command(parameterAndOpcode, machineContext, 1);
+  const output = command.argument(0);
+  command.writeOutput(output);
+  machineContext.instructionPointer.advance(1);
+});
+
 
 class InstructionPointer {
   public current = 0;
@@ -75,8 +108,8 @@ class MachineContext {
   instructionPointer = new InstructionPointer();
   memory: Memory = [];
 
-  initialize(program: Program) {
-    this.input = [];
+  initialize(program: Program, input: Input) {
+    this.input = [...input];
     this.output = [];
     this.instructionPointer.reset();
     this.memory = [...program];
@@ -99,6 +132,10 @@ export class ParameterAndOpcode {
         return Opcode.ADD;
       case 2:
         return Opcode.MULTIPLY;
+      case 3:
+        return Opcode.INPUT;
+      case 4:
+        return Opcode.OUTPUT;
       case 99:
         return Opcode.ENDED;
       default:
@@ -115,8 +152,8 @@ export class ParameterAndOpcode {
 export class IntCodeComputer {
   private readonly context = new MachineContext();
 
-  runProgram(program: Program): number[] {
-    this.context.initialize(program);
+  runProgram(program: Program, input: Input = []): number[] {
+    this.context.initialize(program, input);
 
     while (true) {
       const operationCode = this.context.memory[this.context.instructionPointer.current];
@@ -128,4 +165,8 @@ export class IntCodeComputer {
       operations.get(operationCode)!(parameterAndOpcode, this.context);
     }
   };
+
+  output(): Output {
+    return [...this.context.output];
+  }
 }
