@@ -222,7 +222,7 @@ export class ParameterAndOpcode {
 export class IntCodeComputer {
   private readonly context = new MachineContext();
 
-  runProgram(program: Program, input: Input = []): number[] {
+  runProgram(program: Program, input: Input = []):void{
     this.context.initialize(program, input);
 
     while (true) {
@@ -230,7 +230,7 @@ export class IntCodeComputer {
       const parameterAndOpcode = new ParameterAndOpcode(operationCode);
       this.context.instructionPointer.advance(1);
       if (Opcode.ENDED === parameterAndOpcode.opcode()) {
-        return this.context.memory;
+        return;
       }
       operations.get(parameterAndOpcode.opcode())!(parameterAndOpcode, this.context);
     }
