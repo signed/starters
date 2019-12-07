@@ -1,4 +1,4 @@
-type OperationExecutor = (instructionPointer: InstructionPointer, memory: Memory) => number;
+type OperationExecutor = (context: MachineContext) => number;
 
 
 enum Opcode {
@@ -10,7 +10,7 @@ enum Opcode {
 const operations = new Map<Opcode, OperationExecutor>();
 
 // 1 reg1 reg2 dest-reg
-operations.set(Opcode.ADD, (instructionPointer, memory) => {
+operations.set(Opcode.ADD, ({instructionPointer, memory}) => {
   const start = instructionPointer.current;
   const end = start + 3;
   const command = memory.slice(start, end);
@@ -23,7 +23,7 @@ operations.set(Opcode.ADD, (instructionPointer, memory) => {
   instructionPointer.advance(3);
   return fst + snd;
 });
-operations.set(Opcode.MULTIPLY, (instructionPointer, memory) => {
+operations.set(Opcode.MULTIPLY, ({instructionPointer, memory}) => {
   const start = instructionPointer.current;
   const end = start + 3;
   const command = memory.slice(start, end);
@@ -43,23 +43,44 @@ class InstructionPointer {
   advance(range: number) {
     this.current += range;
   }
+
+  reset() {
+    this.current = 0;
+  }
 }
 
 type Program = number [];
 type Memory = number [];
+type Input = number [];
+type Output = number [];
+
+class MachineContext{
+  input: Input = [];
+  output: Output = [];
+  instructionPointer = new InstructionPointer();
+  memory: Memory = [];
+
+  initialize(program: Program){
+    this.input = [];
+    this.output = [];
+    this.instructionPointer.reset();
+    this.memory = [...program];
+  }
+}
 
 export class IntCodeComputer {
+  private readonly context = new MachineContext();
+
   runProgram(program: Program): number[] {
-    // load program into memory
-    const memory: Memory = [...program];
-    const instructionPointer = new InstructionPointer();
+    this.context.initialize(program);
+
     while (true) {
-      const operationCode = memory[instructionPointer.current];
-      instructionPointer.advance(1);
+      const operationCode = this.context.memory[this.context.instructionPointer.current];
+      this.context.instructionPointer.advance(1);
       if (Opcode.ENDED === operationCode) {
-        return memory;
+        return this.context.memory;
       }
-      operations.get(operationCode)!(instructionPointer, memory);
+      operations.get(operationCode)!(this.context);
     }
   };
 }
