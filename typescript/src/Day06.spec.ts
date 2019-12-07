@@ -1,9 +1,29 @@
 import { readFileSync } from 'fs';
 
 class Mass {
+  _orbits: Mass | undefined;
   readonly inOrbit: Mass[] = [];
 
   constructor(readonly name: string) {
+  }
+
+  orbits(mass: Mass) {
+    if (this._orbits !== undefined) {
+      throw new Error('interesting')
+    }
+    this._orbits = mass;
+  }
+
+  pathToCom():string [] {
+    if (this._orbits === undefined) {
+      return [];
+    }
+    const flup = this._orbits.pathToCom();
+    return [...flup, this._orbits.name];
+  }
+
+  doesOrbit(){
+    return this._orbits !== undefined
   }
 }
 
@@ -23,10 +43,11 @@ const getOrInsert = <Key, Value>(map: Map<Key, Value>, key: Key, creator: (key: 
 
 function buildMap(map: string) {
   const nameToMass = new Map<string, Mass>();
-  map.split('\n').map(line => line.split(')')).forEach(([name, inOrbit]) => {
-    const maybeMass = getOrInsert(nameToMass, name, name => new Mass(name));
-    const maybeInOrbit = getOrInsert(nameToMass, inOrbit, name => new Mass(name));
-    maybeMass.inOrbit.push(maybeInOrbit);
+  map.split('\n').map(line => line.split(')')).forEach(([massName, inOrbitName]) => {
+    const mass = getOrInsert(nameToMass, massName, name => new Mass(name));
+    const inOrbit = getOrInsert(nameToMass, inOrbitName, name => new Mass(name));
+    inOrbit.orbits(mass);
+    mass.inOrbit.push(inOrbit);
   });
   return nameToMass;
 }
@@ -47,9 +68,41 @@ it('day 6 task 1 orbits', () => {
   expect(orbitsOn(loadOrbitMap())).toBe(402879);
 });
 
-it('day 6 task 2 orbit jumps to santa', () => {
-  const map = buildMap(loadOrbitMap());
 
+const orbitJumpsFrom = (map: string, from: string, key: string): number => {
+  const linkedMap = buildMap(map);
+  const you = linkedMap.get(from)!.pathToCom();
+  const santa = linkedMap.get(key)!.pathToCom();
+  const limit = Math.min(you.length, santa.length);
+
+  for (let i = 0; i < limit; i++) {
+    if (santa[i] !== you[i]) {
+      const stepsFromYouToSharedNode = you.splice(i, you.length - 1).length;
+      const stepsFromSharedNodeToSanta = santa.splice(i, santa.length - 1).length;
+      return stepsFromYouToSharedNode + stepsFromSharedNodeToSanta;
+    }
+  }
+};
+
+it('day 6 task 2 orbit jumps to santa', () => {
+  expect(orbitJumpsFrom(loadOrbitMap(), 'YOU', 'SAN')).toBe(484);
+});
+
+it('provided sample for orbit jumps', () => {
+  const map = `COM)B
+B)C
+C)D
+D)E
+E)F
+B)G
+G)H
+D)I
+E)J
+J)K
+K)L
+K)YOU
+I)SAN`;
+  expect(orbitJumpsFrom(map, 'YOU', 'SAN')).toBe(4);
 });
 
 it('provided sample', () => {
