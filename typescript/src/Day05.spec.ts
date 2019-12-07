@@ -27,6 +27,11 @@ it('day05 challenge part 1', () => {
   computer.runProgram(masterProgram, [1]);
   expect(computer.output()).toEqual([0, 0, 0, 0, 0, 0, 0, 0, 0, 9961446]);
 });
+it('day05 challenge part 2', () => {
+  const computer = new IntCodeComputer();
+  computer.runProgram(masterProgram, [5]);
+  expect(computer.output()).toEqual([742621]);
+});
 
 describe('new opcodes', () => {
   it('basic input output program ', () => {

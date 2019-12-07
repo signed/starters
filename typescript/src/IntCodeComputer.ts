@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 
 type OperationExecutor = (parameterAndOpcode: ParameterAndOpcode, context: MachineContext) => void;
 
-export const loadIntProgramAt = (day:string) => {
+export const loadIntProgramAt = (day: string) => {
   const input = readFileSync(__dirname + '/' + day + '.input.csv', 'utf8');
   return input.split(',').map(character => parseInt(character, 10));
 };
@@ -12,7 +12,36 @@ export const enum Opcode {
   MULTIPLY = 2,
   INPUT = 3,
   OUTPUT = 4,
+  JUMP_IF_TRUE = 5,
+  JUMP_IF_FALSE = 6,
+  LESS_THEN = 7,
+  EQUALS = 8,
   ENDED = 99,
+}
+
+function opcodeFor(number: number) {
+  switch (number) {
+    case 1:
+      return Opcode.ADD;
+    case 2:
+      return Opcode.MULTIPLY;
+    case 3:
+      return Opcode.INPUT;
+    case 4:
+      return Opcode.OUTPUT;
+    case 5:
+      return Opcode.JUMP_IF_TRUE;
+    case 6:
+      return Opcode.JUMP_IF_FALSE;
+    case 7:
+      return Opcode.LESS_THEN;
+    case 8:
+      return Opcode.EQUALS;
+    case 99:
+      return Opcode.ENDED;
+    default:
+      throw Error('unknown Opcode ' + number);
+  }
 }
 
 // writes will never be in immediate mode
@@ -43,7 +72,7 @@ class Command {
 
   writeAt(index: number, value: number) {
     if (index >= this.codes.length) {
-      throw new Error('accessing out of scope')
+      throw new Error('accessing out of scope');
     }
     const memoryAddress = this.codes[index];
     this.machineContext.memory[memoryAddress] = value;
@@ -89,7 +118,40 @@ operations.set(Opcode.OUTPUT, (parameterAndOpcode, machineContext) => {
   command.writeOutput(output);
   machineContext.instructionPointer.advance(1);
 });
-
+operations.set(Opcode.JUMP_IF_TRUE, (parameterAndOpcode, machineContext) => {
+  const command = new Command(parameterAndOpcode, machineContext, 2);
+  const argument = command.argument(0);
+  if (argument !== 0) {
+    machineContext.instructionPointer.jumpTo(command.argument(1));
+  } else {
+    machineContext.instructionPointer.advance(2);
+  }
+});
+operations.set(Opcode.JUMP_IF_FALSE, (parameterAndOpcode, machineContext) => {
+  const command = new Command(parameterAndOpcode, machineContext, 2);
+  const argument = command.argument(0);
+  if (argument === 0) {
+    machineContext.instructionPointer.jumpTo(command.argument(1));
+  } else {
+    machineContext.instructionPointer.advance(2);
+  }
+});
+operations.set(Opcode.LESS_THEN, (parameterAndOpcode, machineContext) => {
+  const command = new Command(parameterAndOpcode, machineContext, 3);
+  const first = command.argument(0);
+  const second = command.argument(1);
+  const valueToWrite = first < second ? 1 : 0;
+  command.writeAt(2, valueToWrite);
+  machineContext.instructionPointer.advance(3);
+});
+operations.set(Opcode.EQUALS, (parameterAndOpcode, machineContext) => {
+  const command = new Command(parameterAndOpcode, machineContext, 3);
+  const first = command.argument(0);
+  const second = command.argument(1);
+  const valueToWrite = first === second ? 1 : 0;
+  command.writeAt(2, valueToWrite);
+  machineContext.instructionPointer.advance(3);
+});
 
 class InstructionPointer {
   public current = 0;
@@ -100,6 +162,10 @@ class InstructionPointer {
 
   reset() {
     this.current = 0;
+  }
+
+  jumpTo(pointer: number) {
+    this.current = pointer;
   }
 }
 
@@ -132,21 +198,7 @@ export class ParameterAndOpcode {
   }
 
   opcode(): Opcode {
-    const opcode = parseInt(this.digits.slice(-2).join(''), 10);
-    switch (opcode) {
-      case 1:
-        return Opcode.ADD;
-      case 2:
-        return Opcode.MULTIPLY;
-      case 3:
-        return Opcode.INPUT;
-      case 4:
-        return Opcode.OUTPUT;
-      case 99:
-        return Opcode.ENDED;
-      default:
-        throw Error('unknown Opcode ' + opcode);
-    }
+    return opcodeFor(parseInt(this.digits.slice(-2).join(''), 10));
   }
 
   parameterMode(number: number) {
