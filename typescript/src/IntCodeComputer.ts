@@ -54,17 +54,20 @@ const operations = new Map<Opcode, OperationExecutor>();
 
 class Command {
   private readonly codes: number[];
+  private readonly codes2: number[];
   private readonly length: number;
 
   constructor(
     private readonly parameterAndOpcode: ParameterAndOpcode,
     private readonly machineContext: MachineContext,
-    length:number
+    length: number
   ) {
     this.length = length;
-    const start = machineContext.instructionPointer.current+1;
-    const end = start + length;
+    const start = machineContext.instructionPointer.current + 1;
+    const end = start + this.length;
     this.codes = machineContext.memory.slice(start, end);
+    this.codes2 = machineContext.memory.slice(start - 1, end);
+
   }
 
   argument(index: number) {
@@ -101,7 +104,7 @@ class Command {
   }
 
   completed() {
-    this.machineContext.instructionPointer.advance(this.length+1);
+    this.machineContext.instructionPointer.advance(this.length + 1);
   }
 }
 
@@ -224,7 +227,7 @@ export class ParameterAndOpcode {
 export class IntCodeComputer {
   private readonly context = new MachineContext();
 
-  runProgram(program: Program, input: Input = []):void{
+  runProgram(program: Program, input: Input = []): void {
     this.context.initialize(program, input);
 
     while (true) {
