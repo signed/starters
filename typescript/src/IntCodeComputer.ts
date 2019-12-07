@@ -54,12 +54,14 @@ const operations = new Map<Opcode, OperationExecutor>();
 
 class Command {
   private readonly codes: number[];
+  private readonly length: number;
 
   constructor(
     private readonly parameterAndOpcode: ParameterAndOpcode,
     private readonly machineContext: MachineContext,
-    private readonly length: number
+    length:number
   ) {
+    this.length = length;
     const start = machineContext.instructionPointer.current+1;
     const end = start + length;
     this.codes = machineContext.memory.slice(start, end);
