@@ -84,6 +84,10 @@ class Command {
     this.machineContext.memory[memoryAddress] = value;
   }
 
+  hasInput(): boolean {
+    return this.machineContext.input.length > 0;
+  }
+
   nextInput(): number {
     const shift = this.machineContext.input.shift();
     if (shift === undefined) {
@@ -122,6 +126,10 @@ operations.set(Opcode.MULTIPLY, (parameterAndOpcode, machineContext) => {
 });
 operations.set(Opcode.INPUT, (parameterAndOpcode, machineContext) => {
   const command = new Command(parameterAndOpcode, machineContext, 2);
+  if(!command.hasInput()){
+    machineContext.waitForInput();
+    return;
+  }
   const input = command.nextInput();
   command.writeAt(1, input);
   command.completed();
