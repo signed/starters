@@ -14,20 +14,6 @@ export const enum ParameterMode {
 
 const operations = new Map<Opcode, OperationExecutor>();
 
-// 1 reg1 reg2 dest-reg
-operations.set(Opcode.ADD, (parameterAndOpcode, { instructionPointer, memory }) => {
-  const start = instructionPointer.current;
-  const end = start + 3;
-  const command = memory.slice(start, end);
-  const fstAddress = command[0];
-  const sndAddress = command[1];
-  const destinationAddress = command[2];
-  const fst = memory[fstAddress];
-  const snd = memory[sndAddress];
-  memory[destinationAddress] = fst + snd;
-  instructionPointer.advance(3);
-});
-
 class Command{
   private readonly codes: number[];
   constructor(private readonly parameterAndOpcode: ParameterAndOpcode, private readonly machineContext: MachineContext, length: number) {
@@ -49,6 +35,15 @@ class Command{
     this.machineContext.memory[this.codes[number]] = value;
   }
 }
+
+// 1 reg1 reg2 dest-reg
+operations.set(Opcode.ADD, (parameterAndOpcode, machineContext) => {
+  const command = new Command(parameterAndOpcode, machineContext, 3);
+  const fst = command.argument(0);
+  const snd = command.argument(1);
+  command.writeAt(2, fst + snd);
+  machineContext.instructionPointer.advance(3);
+});
 operations.set(Opcode.MULTIPLY, (parameterAndOpcode, machineContext) => {
   const command = new Command(parameterAndOpcode, machineContext, 3);
   const fst = command.argument(0);
