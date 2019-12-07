@@ -236,6 +236,10 @@ export class IntCodeComputer {
     }
   };
 
+  memory(): Memory {
+    return [...this.context.memory];
+  }
+
   output(): Output {
     return [...this.context.output];
   }

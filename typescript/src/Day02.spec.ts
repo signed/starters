@@ -11,8 +11,8 @@ function calculate(verb: number, noun: number) {
   const program = [...masterProgram];
   program[1] = verb;
   program[2] = noun;
-  const finalState = computer.runProgram(program);
-  return finalState[0];
+  computer.runProgram(program);
+  return computer.memory()[0];
 }
 
 test('day 02 challenge', () => {
