@@ -194,8 +194,8 @@ class MachineContext {
   instructionPointer = new InstructionPointer();
   memory: Memory = [];
 
-  initialize(program: Program, input: Input) {
-    this.input = [...input];
+  initialize(program: Program) {
+    this.input = [];
     this.output = [];
     this.instructionPointer.reset();
     this.memory = [...program];
@@ -225,8 +225,12 @@ export class IntCodeComputer {
   private readonly context = new MachineContext();
 
   runProgram(program: Program, input: Input = []): void {
-    this.context.initialize(program, input);
+    this.load(program);
+    this.addInput(input);
+    this.execute();
+  };
 
+  execute() {
     while (true) {
       const operationCode = this.context.memory[this.context.instructionPointer.current];
       const parameterAndOpcode = new ParameterAndOpcode(operationCode);
@@ -235,7 +239,15 @@ export class IntCodeComputer {
       }
       operations.get(parameterAndOpcode.opcode())!(parameterAndOpcode, this.context);
     }
-  };
+  }
+
+  load(program: number[]) {
+    this.context.initialize(program);
+  }
+
+  addInput(input: Input) {
+    this.context.input.push(...input);
+  }
 
   memory(): Memory {
     return [...this.context.memory];
