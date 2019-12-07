@@ -81,11 +81,11 @@ const calcStepsToTheFirstIntersection = (one: string, two: string) => {
   return stepsOnLineOne + stepsOnLineTwo;
 };
 
-test('challenge part 1', () => {
+test.skip('challenge part 1', () => {
   expect(calcDistanceOfIntersectionsClosesToTheCentralPort(lineOne, lineTwo)).toEqual(1285);
 });
 
-test('challenge part 2', () => {
+test.skip('challenge part 2', () => {
   expect(calcStepsToTheFirstIntersection(lineOne, lineTwo)).toEqual(14228);
 });
 
