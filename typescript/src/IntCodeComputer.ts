@@ -1,4 +1,4 @@
-type OperationExecutor = (context: MachineContext) => number;
+type OperationExecutor = (parameterAndOpcode: ParameterAndOpcode, context: MachineContext) => number;
 
 export const enum Opcode {
   ADD = 1,
@@ -15,7 +15,7 @@ export const enum ParameterMode {
 const operations = new Map<Opcode, OperationExecutor>();
 
 // 1 reg1 reg2 dest-reg
-operations.set(Opcode.ADD, ({ instructionPointer, memory }) => {
+operations.set(Opcode.ADD, (parameterAndOpcode, { instructionPointer, memory }) => {
   const start = instructionPointer.current;
   const end = start + 3;
   const command = memory.slice(start, end);
@@ -28,7 +28,7 @@ operations.set(Opcode.ADD, ({ instructionPointer, memory }) => {
   instructionPointer.advance(3);
   return fst + snd;
 });
-operations.set(Opcode.MULTIPLY, ({ instructionPointer, memory }) => {
+operations.set(Opcode.MULTIPLY, (parameterAndOpcode, { instructionPointer, memory }) => {
   const start = instructionPointer.current;
   const end = start + 3;
   const command = memory.slice(start, end);
@@ -82,7 +82,7 @@ export class ParameterAndOpcode {
     this.parameterModes = this.digits.slice(0, -2).reverse();
   }
 
-  opcode() {
+  opcode(): Opcode {
     const opcode = parseInt(this.digits.slice(-2).join(''), 10);
     switch (opcode) {
       case 1:
@@ -110,11 +110,12 @@ export class IntCodeComputer {
 
     while (true) {
       const operationCode = this.context.memory[this.context.instructionPointer.current];
+      const parameterAndOpcode = new ParameterAndOpcode(operationCode);
       this.context.instructionPointer.advance(1);
-      if (Opcode.ENDED === operationCode) {
+      if (Opcode.ENDED === parameterAndOpcode.opcode()) {
         return this.context.memory;
       }
-      operations.get(operationCode)!(this.context);
+      operations.get(operationCode)!(parameterAndOpcode, this.context);
     }
   };
 }
