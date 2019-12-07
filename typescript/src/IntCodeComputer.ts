@@ -60,7 +60,7 @@ class Command {
     private readonly machineContext: MachineContext,
     private readonly length: number
   ) {
-    const start = machineContext.instructionPointer.current;
+    const start = machineContext.instructionPointer.current+1;
     const end = start + length;
     this.codes = machineContext.memory.slice(start, end);
   }
@@ -99,7 +99,7 @@ class Command {
   }
 
   completed() {
-    this.machineContext.instructionPointer.advance(this.length);
+    this.machineContext.instructionPointer.advance(this.length+1);
   }
 }
 
@@ -228,7 +228,6 @@ export class IntCodeComputer {
     while (true) {
       const operationCode = this.context.memory[this.context.instructionPointer.current];
       const parameterAndOpcode = new ParameterAndOpcode(operationCode);
-      this.context.instructionPointer.advance(1);
       if (Opcode.ENDED === parameterAndOpcode.opcode()) {
         return;
       }
