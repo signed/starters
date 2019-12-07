@@ -1,6 +1,11 @@
-import { IntCodeComputer, Opcode, ParameterAndOpcode, ParameterMode } from './IntCodeComputer';
+import { IntCodeComputer, loadIntProgramAt, Opcode, ParameterAndOpcode, ParameterMode } from './IntCodeComputer';
 
 const opcodeFor = (input: number) => new ParameterAndOpcode(input).opcode();
+
+let masterProgram: number[];
+beforeAll(() => {
+  masterProgram = loadIntProgramAt('Day05');
+});
 
 describe('opcode', () => {
   it('fill up one digit opcode to two digit op code', () => {
@@ -17,8 +22,14 @@ describe('opcode', () => {
   });
 });
 
-describe('new opcode', () => {
-  it('should ', () => {
+it('day05 challenge part 1', () => {
+  const computer = new IntCodeComputer();
+  computer.runProgram(masterProgram, [1]);
+  expect(computer.output()).toEqual([0, 0, 0, 0, 0, 0, 0, 0, 0, 9961446]);
+});
+
+describe('new opcodes', () => {
+  it('basic input output program ', () => {
     const computer = new IntCodeComputer();
     computer.runProgram([3, 0, 4, 0, 99], [27]);
     expect(computer.output()).toEqual([27]);

@@ -1,11 +1,8 @@
-import { readFileSync } from 'fs';
-import { IntCodeComputer } from './IntCodeComputer';
+import { IntCodeComputer, loadIntProgramAt } from './IntCodeComputer';
 
 let masterProgram: number[];
-
-beforeAll(()=> {
-  const input = readFileSync(__dirname + '/Day02.input.csv', 'utf8');
-  masterProgram = input.split(',').map(character => parseInt(character, 10));
+beforeAll(() => {
+  masterProgram = loadIntProgramAt('Day02');
 });
 
 const computer = new IntCodeComputer();
@@ -23,16 +20,14 @@ test('day 02 challenge', () => {
 });
 
 test('day 02 challenge part 2', () => {
-  expect(calculate(41, 12)).toEqual(19690720)
+  expect(calculate(41, 12)).toEqual(19690720);
 });
 
 test.skip('brute force ', () => {
   for (let verb = 0; verb < 100; verb++) {
-    console.log('verb ' + verb);
     for (let noun = 0; noun < 100; noun++) {
       const result = calculate(verb, noun);
       if (result === 19690720) {
-        console.log(`${verb} ${noun}`);
         return;
       }
     }

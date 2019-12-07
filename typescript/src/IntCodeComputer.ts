@@ -1,4 +1,11 @@
+import { readFileSync } from 'fs';
+
 type OperationExecutor = (parameterAndOpcode: ParameterAndOpcode, context: MachineContext) => void;
+
+export const loadIntProgramAt = (day:string) => {
+  const input = readFileSync(__dirname + '/' + day + '.input.csv', 'utf8');
+  return input.split(',').map(character => parseInt(character, 10));
+};
 
 export const enum Opcode {
   ADD = 1,
@@ -75,7 +82,6 @@ operations.set(Opcode.INPUT, (parameterAndOpcode, machineContext) => {
   const input = command.nextInput();
   command.writeAt(0, input);
   machineContext.instructionPointer.advance(1);
-  console.log(machineContext.memory);
 });
 operations.set(Opcode.OUTPUT, (parameterAndOpcode, machineContext) => {
   const command = new Command(parameterAndOpcode, machineContext, 1);
@@ -162,7 +168,7 @@ export class IntCodeComputer {
       if (Opcode.ENDED === parameterAndOpcode.opcode()) {
         return this.context.memory;
       }
-      operations.get(operationCode)!(parameterAndOpcode, this.context);
+      operations.get(parameterAndOpcode.opcode())!(parameterAndOpcode, this.context);
     }
   };
 
