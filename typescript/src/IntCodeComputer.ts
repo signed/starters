@@ -166,6 +166,9 @@ operations.set(Opcode.EQUALS, (parameterAndOpcode, machineContext) => {
   command.writeAt(3, valueToWrite);
   command.completed();
 });
+operations.set(Opcode.ENDED, (parameterAndOpcode, machineContext) => {
+  machineContext.endProgram();
+});
 
 class InstructionPointer {
   public current = 0;
@@ -193,12 +196,33 @@ class MachineContext {
   output: Output = [];
   instructionPointer = new InstructionPointer();
   memory: Memory = [];
+  waitingForInput = false;
+  programEnded = false;
 
   initialize(program: Program) {
     this.input = [];
     this.output = [];
     this.instructionPointer.reset();
     this.memory = [...program];
+  }
+
+  waitForInput(){
+    this.waitingForInput = true;
+  }
+
+  endProgram(){
+    this.programEnded = true;
+  }
+
+  canExecute() {
+    return !this.programEnded && !this.waitingForInput;
+  }
+
+  handleInput(input: Input) {
+    if (input.length > 0) {
+      this.waitingForInput = false;
+    }
+    this.input.push(...input);
   }
 }
 
@@ -233,7 +257,7 @@ export class IntCodeComputer {
   private readonly context = new MachineContext();
 
   execute() {
-    while (true) {
+    while (this.context.canExecute()) {
       const operationCode = this.context.memory[this.context.instructionPointer.current];
       const parameterAndOpcode = new ParameterAndOpcode(operationCode);
       if (Opcode.ENDED === parameterAndOpcode.opcode()) {
@@ -248,7 +272,7 @@ export class IntCodeComputer {
   }
 
   addInput(input: Input) {
-    this.context.input.push(...input);
+    this.context.handleInput(input);
   }
 
   memory(): Memory {
