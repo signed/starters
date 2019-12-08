@@ -21,10 +21,14 @@ interface DigitCount {
   two: number;
 }
 
-function imageChecksum(st: string, imageWidth: number, imageHeight: number) {
+const imageLayers = (st: string, imageWidth: number, imageHeight: number) => {
   const s = st.split('').map(it => parseInt(it, 10));
-  const layers = chunks(s, imageWidth * imageHeight);
-  const counted: DigitCount[] = layers.map(layer => layer.reduce((acc, cur) => {
+  return chunks(s, imageWidth * imageHeight);
+};
+
+function imageChecksum(st: string, imageWidth: number, imageHeight: number) {
+
+  const counted: DigitCount[] = imageLayers(st, imageWidth, imageHeight).map(layer => layer.reduce((acc, cur) => {
     const zero = (cur === 0) ? acc.zero + 1 : acc.zero;
     const one = (cur === 1) ? acc.one + 1 : acc.one;
     const two = (cur === 2) ? acc.two + 1 : acc.two;
@@ -45,10 +49,37 @@ function imageChecksum(st: string, imageWidth: number, imageHeight: number) {
   return crcCheckLayer.one * crcCheckLayer.two;
 }
 
-it('should ', () => {
+it('image checksum ', () => {
   expect(imageChecksum(loadImageData(), 25, 6)).toBe(2562);
 });
 
 it('sample task 1 ', () => {
   expect(imageChecksum('123456789012', 3, 2)).toBe(1);
+});
+
+type Layer = number[];
+const transparent = 2;
+
+const putOnTop = (back: Layer, front: Layer): Layer => {
+  const result:Layer = [];
+  for (let i = 0; i < back.length; i++) {
+    const backElement = back[i];
+    const frontElement = front[i];
+    if (frontElement === transparent) {
+      result.push(backElement)
+    }else{
+      result.push(frontElement);
+    }
+  }
+  return result;
+};
+
+it('bios password', () => {
+  const width = 25;
+  const flup = imageLayers(loadImageData(), width, 6).reverse();
+  //const result = putOnTop(flup[0], flup[1]);
+  const layers = flup.reduce((acc, cur) => putOnTop(acc, cur));
+  const layeredImage = chunks(layers, width).map(line => line.join('')).join('\n');
+  console.log(layeredImage.replace(new RegExp('0', 'g'), ' '));
+  //ZFLBY
 });
