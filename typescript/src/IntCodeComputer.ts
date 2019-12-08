@@ -277,9 +277,6 @@ export class IntCodeComputer {
     while (this.context.canExecute()) {
       const operationCode = this.context.memory[this.context.instructionPointer.current];
       const parameterAndOpcode = new ParameterAndOpcode(operationCode);
-      if (Opcode.ENDED === parameterAndOpcode.opcode()) {
-        return;
-      }
       operations.get(parameterAndOpcode.opcode())!(parameterAndOpcode, this.context);
     }
   }

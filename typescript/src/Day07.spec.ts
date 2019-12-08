@@ -91,16 +91,18 @@ const amplifierWithFeedbackLoop = (program: Program, thrusterConfiguration: numb
     if (allWaitingForInput()) {
       throw new Error('deadlock');
     }
-    amplifiers.forEach(a => a.execute());
+    ampA.execute();
+    ampB.execute();
+    ampC.execute();
+    ampD.execute();
+    ampE.execute();
   }
   return ampE.output().pop()!;
 };
 
-it.skip('amplifier benchmark with feedback loop', () => {
+it('amplifier benchmark with feedback loop', () => {
   const results = permute([5, 6, 7, 8, 9]).map(conf => {
-    const result = { conf, output: amplifierWithFeedbackLoop(masterProgram, conf) };
-    console.log('completed: ' + conf + ' '+ result);
-    return result;
+    return { conf, output: amplifierWithFeedbackLoop(masterProgram, conf) };
   });
   results.sort((a, b) => {
     if (a.output < b.output) {
@@ -112,11 +114,11 @@ it.skip('amplifier benchmark with feedback loop', () => {
     return 0;
   });
   const result = results[results.length - 1];
-  expect(result.conf).toEqual([3, 4, 2, 1, 0]);
-  expect(result.output).toEqual(929800);
+  expect(result.conf).toEqual([7, 6, 8, 9, 5]);
+  expect(result.output).toEqual(15432220);
 });
 
-it.skip('sample one ', () => {
+it('sample one ', () => {
   const program = [3, 26, 1001, 26, -4, 26, 3, 27, 1002, 27, 2, 27, 1, 27, 26, 27, 4, 27, 1001, 28, -1, 28, 1005, 28, 6, 99, 0, 0, 5];
   expect(amplifierWithFeedbackLoop(program, [9, 8, 7, 6, 5])).toBe(139629729);
 });
