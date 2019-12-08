@@ -97,7 +97,7 @@ class Command {
   }
 
   writeOutput(output: number) {
-    this.machineContext.output.push(output);
+    this.machineContext.emitOutput(output);
   }
 
   jumpTo(index: number) {
@@ -126,7 +126,7 @@ operations.set(Opcode.MULTIPLY, (parameterAndOpcode, machineContext) => {
 });
 operations.set(Opcode.INPUT, (parameterAndOpcode, machineContext) => {
   const command = new Command(parameterAndOpcode, machineContext, 2);
-  if(!command.hasInput()){
+  if (!command.hasInput()) {
     machineContext.waitForInput();
     return;
   }
@@ -206,6 +206,8 @@ class MachineContext {
   memory: Memory = [];
   waitingForInput = false;
   programEnded = false;
+  outputListener: OutputListener = () => {
+  };
 
   initialize(program: Program) {
     this.input = [];
@@ -214,12 +216,17 @@ class MachineContext {
     this.memory = [...program];
   }
 
-  waitForInput(){
+  waitForInput() {
     this.waitingForInput = true;
   }
 
-  endProgram(){
+  endProgram() {
     this.programEnded = true;
+  }
+
+  emitOutput(number: number) {
+    this.output.push(number);
+    this.outputListener(number);
   }
 
   canExecute() {
@@ -261,6 +268,8 @@ export const runProgram = (program: Program, input: Input = []): IntCodeComputer
   return computer;
 };
 
+export type OutputListener = (number: number) => void
+
 export class IntCodeComputer {
   private readonly context = new MachineContext();
 
@@ -275,12 +284,22 @@ export class IntCodeComputer {
     }
   }
 
+  waitingForInput(): boolean {
+    return this.context.waitingForInput;
+  }
+
+  terminated() {
+    return this.context.programEnded;
+  }
+
   load(program: Program) {
     this.context.initialize(program);
+    return this;
   }
 
   addInput(input: Input) {
     this.context.handleInput(input);
+    return this;
   }
 
   memory(): Memory {
@@ -289,5 +308,9 @@ export class IntCodeComputer {
 
   output(): Output {
     return [...this.context.output];
+  }
+
+  onOutput(listener: OutputListener) {
+    this.context.outputListener = listener;
   }
 }
