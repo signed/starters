@@ -16,6 +16,7 @@ export const enum Opcode {
   JUMP_IF_FALSE = 6,
   LESS_THEN = 7,
   EQUALS = 8,
+  ADJUSTS_THE_RELATIVE_BASE = 9,
   ENDED = 99,
 }
 
@@ -37,6 +38,8 @@ function opcodeFor(number: number) {
       return Opcode.LESS_THEN;
     case 8:
       return Opcode.EQUALS;
+    case 9:
+      return Opcode.ADJUSTS_THE_RELATIVE_BASE;
     case 99:
       return Opcode.ENDED;
     default:
@@ -48,6 +51,7 @@ function opcodeFor(number: number) {
 export const enum ParameterMode {
   Position = 0,
   Immediate = 1,
+  Relative = 2,
 }
 
 const operations = new Map<Opcode, OperationExecutor>();
@@ -68,19 +72,29 @@ class Command {
   }
 
   argument(index: number) {
-    const addressOrValue = this.codes[index];
+    let addressOrValueOrOffset = this.codes[index];
     const mode = this.parameterAndOpcode.parameterMode(adjustForOpcode(index));
     if (ParameterMode.Immediate === mode) {
-      return addressOrValue;
+      return addressOrValueOrOffset;
     }
-    return this.machineContext.memory[addressOrValue];
+    if (ParameterMode.Relative === mode) {
+      addressOrValueOrOffset =  this.machineContext.relativeBase + addressOrValueOrOffset;
+    }
+    const memoryElement = this.machineContext.memory[addressOrValueOrOffset];
+    if (isNaN(memoryElement)) {
+      throw new Error('accessed argument is NaN');
+    }
+    return memoryElement;
   }
 
   writeAt(index: number, value: number) {
     if (index >= this.codes.length) {
       throw new Error('accessing out of scope');
     }
-    const memoryAddress = this.codes[index];
+    let memoryAddress = this.codes[index];
+    if (ParameterMode.Relative === this.parameterAndOpcode.parameterMode(adjustForOpcode(index))) {
+      memoryAddress = memoryAddress + this.machineContext.relativeBase
+    }
     this.machineContext.memory[memoryAddress] = value;
   }
 
@@ -174,6 +188,12 @@ operations.set(Opcode.EQUALS, (parameterAndOpcode, machineContext) => {
   command.writeAt(3, valueToWrite);
   command.completed();
 });
+operations.set(Opcode.ADJUSTS_THE_RELATIVE_BASE, (parameterAndOpcode, machineContext) => {
+  const command = new Command(parameterAndOpcode, machineContext, 2);
+  const first = command.argument(1);
+  machineContext.relativeBase = machineContext.relativeBase + first;
+  command.completed();
+});
 operations.set(Opcode.ENDED, (parameterAndOpcode, machineContext) => {
   machineContext.endProgram();
 });
@@ -203,6 +223,7 @@ class MachineContext {
   input: Input = [];
   output: Output = [];
   instructionPointer = new InstructionPointer();
+  relativeBase: number = 0;
   memory: Memory = [];
   waitingForInput = false;
   programEnded = false;
@@ -213,6 +234,7 @@ class MachineContext {
     this.input = [];
     this.output = [];
     this.instructionPointer.reset();
+    this.relativeBase = 0;
     this.memory = [...program];
   }
 
@@ -256,7 +278,16 @@ export class ParameterAndOpcode {
 
   parameterMode(number: number) {
     const parameterModeAsString = this.parameterModes[number] ?? '0';
-    return parameterModeAsString === '0' ? ParameterMode.Position : ParameterMode.Immediate;
+    if ('0' === parameterModeAsString) {
+      return ParameterMode.Position;
+    }
+    if ('1' === parameterModeAsString) {
+      return ParameterMode.Immediate
+    }
+    if ('2' === parameterModeAsString) {
+      return ParameterMode.Relative;
+    }
+    throw new Error(`unsupported parameter mode ${parameterModeAsString}`);
   }
 }
 
@@ -309,5 +340,9 @@ export class IntCodeComputer {
 
   onOutput(listener: OutputListener) {
     this.context.outputListener = listener;
+  }
+
+  relativeBase() {
+    return this.context.relativeBase;
   }
 }
