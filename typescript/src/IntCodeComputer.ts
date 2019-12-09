@@ -80,9 +80,10 @@ class Command {
     if (ParameterMode.Relative === mode) {
       addressOrValueOrOffset =  this.machineContext.relativeBase + addressOrValueOrOffset;
     }
+
     const memoryElement = this.machineContext.memory[addressOrValueOrOffset];
     if (isNaN(memoryElement)) {
-      throw new Error('accessed argument is NaN');
+      return 0;
     }
     return memoryElement;
   }

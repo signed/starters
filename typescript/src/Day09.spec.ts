@@ -1,6 +1,12 @@
-import { runProgram } from './IntCodeComputer';
+import { loadIntProgramAt, runProgram } from './IntCodeComputer';
 
-it.skip('sample that returns it self ', () => {
+it('day 9 task 1', () => {
+  const program = loadIntProgramAt('Day09');
+  const computer = runProgram(program, [1]);
+  expect(computer.output()).toEqual([4234906522]);
+});
+
+it('sample that returns it self ', () => {
   const computer = runProgram([109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99], []);
   expect(computer.output()).toEqual([109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99]);
 });
