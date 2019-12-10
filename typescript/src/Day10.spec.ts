@@ -18,13 +18,16 @@ class Coordinate {
   }
 }
 
-const print = (coordinatesForAsteroids: Map<string, Coordinate>, dimensons: Dimensions) => {
+const print = (coordinatesForAsteroids: Map<string, Coordinate>, dimensons: Dimensions, pivot?: Coordinate) => {
   const lines: string[] = [];
   for (let y = 0; y < dimensons.y; y++) {
     const line = [];
     for (let x = 0; x < dimensons.x; x++) {
-      const s = new Coordinate(x, y).toString();
-      const cell = coordinatesForAsteroids.has(s.toString()) ? '#' : '.';
+      const s = new Coordinate(x, y);
+      let cell = coordinatesForAsteroids.has(s.toString()) ? '#' : '.';
+      if (pivot && s.isEqual(pivot)) {
+        cell = 'o';
+      }
       line.push(cell);
     }
     lines.push(line.join(''));
@@ -76,6 +79,9 @@ function scanForVisibleAsteroids(coordinatesForAsteroids: Map<string, Coordinate
           if (pivot.x === other.x) {
             // the two are in the same column, have a gradient of infinity
             for (let y = 0; y < dimensons.y; y++) {
+              if (pivot.y === y) {
+                continue;
+              }
               const candidate = new Coordinate(pivot.x, y);
               if (pivotMap.has(candidate.toString())) {
                 if (y < pivot.y) {
@@ -85,9 +91,27 @@ function scanForVisibleAsteroids(coordinatesForAsteroids: Map<string, Coordinate
                 }
               }
             }
+          } else if (pivot.y === other.y) {
+            // the two are in the same row gradient is zero
+            for (let x = 0; x < dimensons.x; x++) {
+              if (pivot.x === x) {
+                continue;
+              }
+              const candidate = new Coordinate(x, pivot.y);
+              if (pivotMap.has(candidate.toString())) {
+                if (x < pivot.x) {
+                  leftOf.push(candidate);
+                } else {
+                  rightOf.push(candidate);
+                }
+              }
+            }
           } else {
             const equation = linearEquationFor(pivot, other);
             for (let x = 0; x < dimensons.x; x++) {
+              if (pivot.x === x) {
+                continue;
+              }
               const y = equation(x);
               const candidate = new Coordinate(x, y);
               if (pivotMap.has(candidate.toString())) {
@@ -105,17 +129,17 @@ function scanForVisibleAsteroids(coordinatesForAsteroids: Map<string, Coordinate
             leftOf.forEach(asteroid => pivotMap.delete(asteroid.toString()));
           }
           if (rightOf.length > 1) {
-            leftOf.shift();
-            leftOf.forEach(asteroid => pivotMap.delete(asteroid.toString()));
+            rightOf.shift();
+            rightOf.forEach(asteroid => pivotMap.delete(asteroid.toString()));
           }
         }
       );
     pivotMap.delete(pivot.toString());
-    return { pivot, visible: pivotMap.size, map: print(pivotMap, dimensons) };
+    return { pivot, visible: pivotMap.size, map: print(pivotMap, dimensons, pivot) };
   };
 }
 
-it('should ', () => {
+it('should work for the sample', () => {
   const map = `.#..#
 .....
 #####
@@ -125,9 +149,17 @@ it('should ', () => {
   const { dimensions, coordinatesForAsteroids } = mapWithCoordinatesFrom(map);
 
   const asteroids = Array.from(coordinatesForAsteroids.values());
-  //console.log(asteroids.map(scanForVisibleAsteroids(coordinatesForAsteroids, lines)));
-  const result = scanForVisibleAsteroids(coordinatesForAsteroids, dimensions)(new Coordinate(2, 2));
-  console.log(result.map);
+  const result = asteroids.map(scanForVisibleAsteroids(coordinatesForAsteroids, dimensions));
+  result.sort((s1, s2) => {
+    if (s1.visible < s2.visible) {
+      return -1;
+    }
+    if (s1.visible > s2.visible) {
+      return 1;
+    }
+    return 0;
+  });
+  expect(result.pop()!.visible).toBe(8);
 });
 
 interface Dimensions {
