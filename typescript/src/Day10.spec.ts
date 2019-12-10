@@ -153,8 +153,7 @@ function maxVisibleAsteroidsFor(map: string) {
     }
     return 0;
   });
-  const maxVisibleAstroids = result.pop()!;
-  return maxVisibleAstroids;
+  return result.pop()!;
 }
 
 it('should work for the sample', () => {
@@ -167,7 +166,10 @@ it('should work for the sample', () => {
 });
 
 it('day 10 task 1', () => {
-  expect(maxVisibleAsteroidsFor(loadAsteroidMap()).visible).toBe(299);
+  const result = maxVisibleAsteroidsFor(loadAsteroidMap());
+  console.log(result.map);
+  expect(result.visible).toBe(299);
+  expect(result.pivot).toEqual({"x": 26, "y": 29});
 });
 
 interface Dimensions {
