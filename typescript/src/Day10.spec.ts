@@ -139,13 +139,7 @@ function scanForVisibleAsteroids(coordinatesForAsteroids: Map<string, Coordinate
   };
 }
 
-it('should work for the sample', () => {
-  const map = `.#..#
-.....
-#####
-....#
-...##`;
-
+function maxVisibleAsteroidsFor(map: string) {
   const { dimensions, coordinatesForAsteroids } = mapWithCoordinatesFrom(map);
 
   const asteroids = Array.from(coordinatesForAsteroids.values());
@@ -159,7 +153,21 @@ it('should work for the sample', () => {
     }
     return 0;
   });
-  expect(result.pop()!.visible).toBe(8);
+  const maxVisibleAstroids = result.pop()!;
+  return maxVisibleAstroids;
+}
+
+it('should work for the sample', () => {
+  const map = `.#..#
+.....
+#####
+....#
+...##`;
+  expect(maxVisibleAsteroidsFor(map).visible).toBe(8);
+});
+
+it('day 10 task 1', () => {
+  expect(maxVisibleAsteroidsFor(loadAsteroidMap()).visible).toBe(299);
 });
 
 interface Dimensions {
