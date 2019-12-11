@@ -343,6 +343,10 @@ export class IntCodeComputer {
     this.context.outputListener = listener;
   }
 
+  clearOutput(){
+    this.context.output.length = 0;
+  }
+
   relativeBase() {
     return this.context.relativeBase;
   }
