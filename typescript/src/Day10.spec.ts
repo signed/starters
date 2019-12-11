@@ -290,7 +290,7 @@ function shootOrder(map: string, pivot: Coordinate) {
     }
     return 0;
   });
-  uniqueAngles.reverse();
+  uniqueAngles.reverse(); // this is because we go clockwise and the angles growing counter clock wise.
   const number = uniqueAngles.indexOf(90);
   const end = uniqueAngles.slice(0, number);
   const start = uniqueAngles.slice(number, uniqueAngles.length);
