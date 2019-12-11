@@ -41,15 +41,15 @@ const bigExample = `.#..##.###...#######
 ###.##.####.##.#..##`;
 
 
-const print = (coordinatesForAsteroids: Map<string, Coordinate>, dimensons: Dimensions, pivot?: Coordinate) => {
+const print = (coordinatesForAsteroids: Map<string, Coordinate>, dimensions: Dimensions, renderHints?: Map<string, string>) => {
   const lines: string[] = [];
-  for (let y = 0; y < dimensons.y; y++) {
+  for (let y = 0; y < dimensions.y; y++) {
     const line = [];
-    for (let x = 0; x < dimensons.x; x++) {
+    for (let x = 0; x < dimensions.x; x++) {
       const s = new Coordinate(x, y);
       let cell = coordinatesForAsteroids.has(s.toString()) ? '#' : '.';
-      if (pivot && s.isEqual(pivot)) {
-        cell = 'o';
+      if (renderHints && renderHints.has(s.toString())) {
+        cell = renderHints.get(s.toString())!;
       }
       line.push(cell);
     }
@@ -169,7 +169,9 @@ function scanForVisibleAsteroids(coordinatesForAsteroids: Map<string, Coordinate
         }
       );
     pivotMap.delete(pivot.toString());
-    return { pivot, visible: pivotMap.size, map: print(pivotMap, dimensons, pivot) };
+    const renderHints = new Map<string, string>();
+    renderHints.set(pivot.toString(), 'o');
+    return { pivot, visible: pivotMap.size, map: print(pivotMap, dimensons, renderHints), pivotMap };
   };
 }
 
@@ -200,9 +202,31 @@ it('should work for the sample', () => {
 });
 
 it('should work for the big sample', () => {
+  const { dimensions } = mapWithCoordinatesFrom(bigExample);
   const result = maxVisibleAsteroidsFor(bigExample);
   expect(result.visible).toBe(210);
   expect(result.pivot).toEqual(bigExamplePivot);
+  //console.log(result.map);
+
+  const renderHints = new Map<string, string>();
+  renderHints.set(bigExamplePivot.toString(), 'o');
+  const fst = new Coordinate(11,12);
+  const snd = new Coordinate(12,1);
+  const thrd = new Coordinate(12,2);
+
+  const mySnd = new Coordinate(10,1);
+
+  renderHints.set(fst.toString(), '1');
+  renderHints.set(snd.toString(), '2');
+  renderHints.set(thrd.toString(), '3');
+
+  renderHints.set(mySnd.toString(), 'E');
+  renderHints.set(mySnd.toString(), 'E');
+
+  console.log(print(result.pivotMap, dimensions, renderHints));
+
+  const destroyOrder = shootOrder(bigExample, bigExamplePivot);
+  expect(get200thMagicNumber(destroyOrder)).toEqual(802);
 });
 
 it('day 10 task 1', () => {
@@ -240,11 +264,8 @@ interface Details {
   distance: number;
 }
 
-// https://math.stackexchange.com/questions/707673/find-angle-in-degrees-from-one-point-to-another-in-2d-space
-it('day 10 task 2', () => {
-  const map = loadAsteroidMap();
+function shootOrder(map: string, pivot: Coordinate) {
   const { coordinatesForAsteroids } = mapWithCoordinatesFrom(map);
-  const pivot = new Coordinate(26, 29);
   coordinatesForAsteroids.delete(pivot.toString());
   const angleMap = new Map<number, Details[]>();
 
@@ -260,23 +281,30 @@ it('day 10 task 2', () => {
     coordinatesAtSameAngle.push({ coordinate: asteroid, distance });
   });
   const uniqueAngles = Array.from(angles.values());
-  uniqueAngles.sort((s1, s2)=> {
+  uniqueAngles.sort((s1, s2) => {
     if (s1 < s2) {
-      return -1
+      return -1;
     }
     if (s1 > s2) {
-      return 1
+      return 1;
     }
-    return 0
+    return 0;
   });
+  uniqueAngles.reverse();
   const number = uniqueAngles.indexOf(90);
   const end = uniqueAngles.slice(0, number);
   const start = uniqueAngles.slice(number, uniqueAngles.length);
   const processOrder = [...start, ...end];
 
-  const destroyOrder = processOrder.map(angle => angleMap.get(angle)!);
+  return processOrder.map(angle => angleMap.get(angle)!);
+}
 
+function get200thMagicNumber(destroyOrder: Details[][]) {
+  const asteroid200ToBeDestroyed = destroyOrder[199][0].coordinate;
+  return asteroid200ToBeDestroyed.x * 100 + asteroid200ToBeDestroyed.y;
+}
 
-  const asteroid200ToBeDestroyed = destroyOrder[199][0].coordinate
-  expect(asteroid200ToBeDestroyed.x * 100 + asteroid200ToBeDestroyed.y).toBe(2135); //this is too high
+it('day 10 task 2', () => {
+  const destroyOrder = shootOrder(loadAsteroidMap(), new Coordinate(26, 29));
+  expect(get200thMagicNumber(destroyOrder)).toBe(1419);
 });
