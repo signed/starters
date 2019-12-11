@@ -5,7 +5,6 @@ export const loadAsteroidMap = () => {
   return readFileSync(__dirname + '/Day10.input.csv', 'utf8');
 };
 
-
 class Coordinate {
   constructor(readonly x: number, readonly y: number) {
   }
@@ -18,6 +17,29 @@ class Coordinate {
     return this.x === other.x && this.y === other.y;
   }
 }
+
+const bigExamplePivot = new Coordinate(11, 13);
+const bigExample = `.#..##.###...#######
+##.############..##.
+.#.######.########.#
+.###.#######.####.#.
+#####.##.#.##.###.##
+..#####..#.#########
+####################
+#.####....###.#.#.##
+##.#################
+#####.##.###..####..
+..######..##.#######
+####.##.####...##..#
+.#####..#.######.###
+##...#.##########...
+#.##########.#######
+.####.#.###.###.#.##
+....##.##.###..#####
+.#.#.###########.###
+#.#.#.#####.####.###
+###.##.####.##.#..##`;
+
 
 const print = (coordinatesForAsteroids: Map<string, Coordinate>, dimensons: Dimensions, pivot?: Coordinate) => {
   const lines: string[] = [];
@@ -68,7 +90,6 @@ it('load and re-create map  ', () => {
   const { coordinatesForAsteroids, dimensions } = mapWithCoordinatesFrom(map);
   expect(print(coordinatesForAsteroids, dimensions)).toEqual(map);
 });
-
 
 it('basic sanity check ', () => {
   const equation = linearEquationFor(new Coordinate(1, 1), new Coordinate(5, 5));
@@ -178,6 +199,12 @@ it('should work for the sample', () => {
   expect(maxVisibleAsteroidsFor(map).visible).toBe(8);
 });
 
+it('should work for the big sample', () => {
+  const result = maxVisibleAsteroidsFor(bigExample);
+  expect(result.visible).toBe(210);
+  expect(result.pivot).toEqual(bigExamplePivot);
+});
+
 it('day 10 task 1', () => {
   const result = maxVisibleAsteroidsFor(loadAsteroidMap());
   console.log(result.map);
@@ -215,7 +242,8 @@ interface Details {
 
 // https://math.stackexchange.com/questions/707673/find-angle-in-degrees-from-one-point-to-another-in-2d-space
 it('day 10 task 2', () => {
-  const { coordinatesForAsteroids } = mapWithCoordinatesFrom(loadAsteroidMap());
+  const map = loadAsteroidMap();
+  const { coordinatesForAsteroids } = mapWithCoordinatesFrom(map);
   const pivot = new Coordinate(26, 29);
   coordinatesForAsteroids.delete(pivot.toString());
   const angleMap = new Map<number, Details[]>();
@@ -244,10 +272,11 @@ it('day 10 task 2', () => {
   const number = uniqueAngles.indexOf(90);
   const end = uniqueAngles.slice(0, number);
   const start = uniqueAngles.slice(number, uniqueAngles.length);
-
   const processOrder = [...start, ...end];
-  const angle = processOrder[199];
-  const candidates = angleMap.get(angle)!;
-  const asteroid200ToBeDestroyed = candidates[0]!.coordinate;
+
+  const destroyOrder = processOrder.map(angle => angleMap.get(angle)!);
+
+
+  const asteroid200ToBeDestroyed = destroyOrder[199][0].coordinate
   expect(asteroid200ToBeDestroyed.x * 100 + asteroid200ToBeDestroyed.y).toBe(2135); //this is too high
 });
