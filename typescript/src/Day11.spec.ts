@@ -29,6 +29,7 @@ enum Turn {
 class PaintingRobot {
   private readonly hullMap = new HullMap();
   location: HullCoordinate = new HullCoordinate(0, 0);
+  private allVisitedCoordinates = [this.location];
   orientation: Orientation = Orientation.Up;
 
   constructor() {
@@ -98,10 +99,45 @@ class PaintingRobot {
         break;
     }
     this.location = newLocation;
+    this.allVisitedCoordinates.push(newLocation);
   }
 
   numberOfPaintedPanels() {
     return this.hullMap.size();
+  }
+
+  drawPicture(): string {
+    const initialMinMax: MinMax = { x: { min: 0, max: 0 }, y: { min: 0, max: 0 } };
+    const minMax = this.allVisitedCoordinates.reduce((acc, cur) => {
+      acc.x.min = Math.min(acc.x.min, cur.x);
+      acc.x.max = Math.max(acc.x.max, cur.x);
+      acc.y.min = Math.min(acc.y.min, cur.y);
+      acc.y.max = Math.max(acc.y.max, cur.y);
+      return acc;
+    }, initialMinMax);
+
+    const lines = [];
+    for (let y = minMax.y.min; y <= minMax.y.max; y++) {
+      const line = [];
+      for (let x = minMax.x.min; x <= minMax.x.max; x++) {
+        const color = this.hullMap.colorAt(new HullCoordinate(x, y));
+        const toDraw = color === Color.White? '░': ' ';
+        line.push(toDraw);
+      }
+      lines.push(line.join(''));
+    }
+    return lines.reverse().join('\n');
+  }
+}
+
+interface MinMax{
+  x: {
+    min: number;
+    max: number;
+  }
+  y: {
+    min: number;
+    max: number;
   }
 }
 
@@ -126,9 +162,7 @@ class HullMap {
   }
 }
 
-it('day 11 task 1 number of painted panels ', () => {
-  const robot = new PaintingRobot();
-
+const paint = (robot: PaintingRobot): void => {
   const program = loadIntProgramAt('Day11');
   const computer = runProgram(program);
   do {
@@ -139,15 +173,27 @@ it('day 11 task 1 number of painted panels ', () => {
 
     if (output.length === 2) {
       computer.clearOutput();
-      const colorToPaint = output[0] === 0? Color.Black: Color.White;
-      const turn = output[1] === 0? Turn.Left: Turn.Right;
+      const colorToPaint = output[0] === 0 ? Color.Black : Color.White;
+      const turn = output[1] === 0 ? Turn.Left : Turn.Right;
       robot.paint(colorToPaint);
       robot.turn(turn);
       robot.moveOnePanel();
-    }else if(!computer.terminated()){
+    } else if (!computer.terminated()) {
       throw new Error('think about this');
     }
   } while (!computer.terminated());
+};
 
+it('day 11 task 1 number of painted panels ', () => {
+  const robot = new PaintingRobot();
+  paint(robot);
   expect(robot.numberOfPaintedPanels()).toEqual(2211);
+});
+
+it('day 11 task 2 number of painted panels ', () => {
+  const robot = new PaintingRobot();
+  robot.paint(Color.White);
+  paint(robot);
+  expect(robot.numberOfPaintedPanels()).toEqual(249);
+  console.log(robot.drawPicture());
 });
