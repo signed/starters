@@ -12,16 +12,28 @@ interface Vector {
 const noVelocity = () => ({ x: 0, y: 0, z: 0 });
 
 class Mass {
-  constructor(public name:number, public position: Vector, public velocity: Vector) {
+  constructor(public name: number, public position: Vector, public velocity: Vector) {
   }
 
-  move(adjustVelocity: Vector) {
-    const position = {
-      x: this.position.x + adjustVelocity.x,
-      y: this.position.y + adjustVelocity.y,
-      z: this.position.z + adjustVelocity.z
+  move(increase: Vector) {
+    const newVelocity = {
+      x: this.velocity.x + increase.x,
+      y: this.velocity.y + increase.y,
+      z: this.velocity.z + increase.z
     };
-    return new Mass(this.name, position,adjustVelocity);
+
+    const position = {
+      x: this.position.x + newVelocity.x,
+      y: this.position.y + newVelocity.y,
+      z: this.position.z + newVelocity.z
+    };
+    return new Mass(this.name, position, newVelocity);
+  }
+
+  totalEnergy() {
+    const potential = Math.abs(this.position.x)+Math.abs(this.position.y)+Math.abs(this.position.z);
+    const kinetic = Math.abs(this.velocity.x) + Math.abs(this.velocity.y) + Math.abs(this.velocity.z);
+    return potential * kinetic;
   }
 }
 
@@ -67,17 +79,9 @@ const velocity = (p: number, o: number) => {
   return 0;
 };
 
-it('should ', () => {
-  //const system = readDataFrom(input);
-
-  const sample = `<x=-1, y=0, z=2>
-<x=2, y=-10, z=-7>
-<x=4, y=-8, z=8>
-<x=3, y=5, z=-1>`;
-
+function runSystemFor(steps: number, sample: string) {
   let system = readDataFrom(sample);
-
-  for (let step = 0; step < 2; step++) {
+  for (let step = 0; step < steps; step++) {
     system = toPuh(system).map(it => {
       const adjustVelocity = it.others.reduce((acc, cur) => {
         const x = velocity(it.pivot.position.x, cur.position.x) + acc.x;
@@ -92,6 +96,23 @@ it('should ', () => {
       return it.pivot.move(adjustVelocity);
     });
   }
-  console.log(system);
+  return system;
+}
 
+function totalEnergyIn(system: Mass[]) {
+  return system.reduce((acc, cur) => acc + cur.totalEnergy(), 0);
+}
+
+it('sample one ', () => {
+  //const system = readDataFrom(input);
+
+  const sample = `<x=-1, y=0, z=2>
+<x=2, y=-10, z=-7>
+<x=4, y=-8, z=8>
+<x=3, y=5, z=-1>`;
+  expect(totalEnergyIn(runSystemFor(10, sample))).toBe(179);
+});
+
+it('day 12 part 1', () => {
+  expect(totalEnergyIn(runSystemFor(1000, input))).toBe(8310);
 });
