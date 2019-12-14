@@ -83,26 +83,31 @@ const velocity = (p: number, o: number) => {
   return 0;
 };
 
-function runSystemFor(steps: number, sample: string) {
+const stepFor = (system: System) => {
+  const masses = toPuh(system).map(it => {
+    const adjustVelocity = it.others.reduce((acc, cur) => {
+      const x = velocity(it.pivot.position.x, cur.position.x) + acc.x;
+      const y = velocity(it.pivot.position.y, cur.position.y) + acc.y;
+      const z = velocity(it.pivot.position.z, cur.position.z) + acc.z;
+      return {
+        x,
+        y,
+        z
+      };
+    }, noVelocity());
+    return it.pivot.move(adjustVelocity);
+  });
+  system = new System(masses);
+  return system;
+};
+
+const runSystemFor = (steps: number, sample: string) => {
   let system = readDataFrom(sample);
   for (let step = 0; step < steps; step++) {
-    const masses = toPuh(system).map(it => {
-      const adjustVelocity = it.others.reduce((acc, cur) => {
-        const x = velocity(it.pivot.position.x, cur.position.x) + acc.x;
-        const y = velocity(it.pivot.position.y, cur.position.y) + acc.y;
-        const z = velocity(it.pivot.position.z, cur.position.z) + acc.z;
-        return {
-          x,
-          y,
-          z
-        };
-      }, noVelocity());
-      return it.pivot.move(adjustVelocity);
-    });
-    system = new System(masses);
+    system = stepFor(system);
   }
   return system;
-}
+};
 
 function totalEnergyIn(system: System) {
   return system.masses.reduce((acc, cur) => acc + cur.totalEnergy(), 0);
