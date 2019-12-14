@@ -42,9 +42,26 @@ interface Puh {
   others: Mass [];
 }
 
+type AxisSelect = (vector: Vector) => number
+
 class System {
   constructor(public readonly masses: Mass[]) {
   }
+
+  axisCoordinateFor(selector: AxisSelect): number[] {
+    return this.masses.reduce((acc: number[], mass) => {
+      acc.push(selector(mass.position));
+      return acc;
+    }, []);
+  }
+
+  axisVelocityFor(selector: AxisSelect): number[] {
+    return this.masses.reduce((acc: number[], mass) => {
+      acc.push(selector(mass.velocity));
+      return acc;
+    }, []);
+  }
+
 }
 
 const readDataFrom = (map: string): System => {
@@ -125,4 +142,41 @@ it('sample one ', () => {
 
 it('day 12 part 1', () => {
   expect(totalEnergyIn(runSystemFor(1000, input))).toBe(8310);
+});
+
+
+const cycleAfter = (selector: (vector: Vector) => number) => {
+  let system = readDataFrom(input);
+  const initialXCoordinates = system.axisCoordinateFor(selector);
+  const initialVelocity = system.axisVelocityFor(selector);
+  let step = 0;
+
+  while (true) {
+    system = stepFor(system);
+    ++step;
+    if (initialXCoordinates.toString() === system.axisCoordinateFor(selector).toString() && initialVelocity.toString() === system.axisVelocityFor(selector).toString()) {
+      break;
+    }
+  }
+  return step;
+};
+
+const greatestCommonDivisor = (a: number, b: number): number => a === 0 ? b : greatestCommonDivisor(b % a, a);
+const leastCommonMultiple = (a: number, b: number): number => a * b / greatestCommonDivisor(a, b);
+
+it('should ', () => {
+  expect(greatestCommonDivisor(144, 256)).toBe(16);
+  expect(greatestCommonDivisor(256, 144)).toBe(16);
+});
+
+it('day 12 part 2', () => {
+  const cycleInX = cycleAfter((vector: Vector) => vector.x);
+  const cycleInY = cycleAfter((vector: Vector) => vector.y);
+  const cycleInZ = cycleAfter((vector: Vector) => vector.z);
+  expect(cycleInX).toBe(186028);
+  expect(cycleInY).toBe(268296);
+  expect(cycleInZ).toBe(102356);
+
+  const systemCycle = [cycleInX, cycleInY, cycleInZ].reduce(leastCommonMultiple, 1);
+  expect(systemCycle).toBe(319290382980408);
 });
