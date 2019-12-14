@@ -31,7 +31,7 @@ class Mass {
   }
 
   totalEnergy() {
-    const potential = Math.abs(this.position.x)+Math.abs(this.position.y)+Math.abs(this.position.z);
+    const potential = Math.abs(this.position.x) + Math.abs(this.position.y) + Math.abs(this.position.z);
     const kinetic = Math.abs(this.velocity.x) + Math.abs(this.velocity.y) + Math.abs(this.velocity.z);
     return potential * kinetic;
   }
@@ -42,10 +42,13 @@ interface Puh {
   others: Mass [];
 }
 
-type System = Mass[];
+class System {
+  constructor(public readonly masses: Mass[]) {
+  }
+}
 
-const readDataFrom = (map: string) => {
-  return map.split('\n').map(line => line.slice(1, line.length - 1)).map((line, index) => {
+const readDataFrom = (map: string): System => {
+  const masses = map.split('\n').map(line => line.slice(1, line.length - 1)).map((line, index) => {
     const strings = line.split(', ');
     const coordinates = strings.map(raw => raw.split('=')).reduce((acc: number [], cur: string []) => {
       acc.push(parseInt(cur[1]!, 10));
@@ -54,15 +57,16 @@ const readDataFrom = (map: string) => {
     const vector = { x: coordinates[0]!, y: coordinates[1]!, z: coordinates[2]! };
     return new Mass(index, vector, noVelocity());
   });
+  return new System(masses);
 };
 
 const toPuh = (system: System): Puh[] => {
   const result: Puh[] = [];
-  for (let i = 0; i < system.length; i++) {
-    const others = [...system];
+  for (let i = 0; i < system.masses.length; i++) {
+    const others = [...system.masses];
     others.splice(i, 1);
     result.push({
-      pivot: system[i],
+      pivot: system.masses[i],
       others
     });
   }
@@ -82,7 +86,7 @@ const velocity = (p: number, o: number) => {
 function runSystemFor(steps: number, sample: string) {
   let system = readDataFrom(sample);
   for (let step = 0; step < steps; step++) {
-    system = toPuh(system).map(it => {
+    const masses = toPuh(system).map(it => {
       const adjustVelocity = it.others.reduce((acc, cur) => {
         const x = velocity(it.pivot.position.x, cur.position.x) + acc.x;
         const y = velocity(it.pivot.position.y, cur.position.y) + acc.y;
@@ -95,12 +99,13 @@ function runSystemFor(steps: number, sample: string) {
       }, noVelocity());
       return it.pivot.move(adjustVelocity);
     });
+    system = new System(masses);
   }
   return system;
 }
 
-function totalEnergyIn(system: Mass[]) {
-  return system.reduce((acc, cur) => acc + cur.totalEnergy(), 0);
+function totalEnergyIn(system: System) {
+  return system.masses.reduce((acc, cur) => acc + cur.totalEnergy(), 0);
 }
 
 it('sample one ', () => {
