@@ -8,10 +8,6 @@ class Coordinate {
   toString() {
     return `x: ${this.x} y: ${this.y}`;
   }
-
-  isEqual(other: Coordinate) {
-    return this.x === other.x && this.y === other.y;
-  }
 }
 
 enum Tile {
@@ -92,7 +88,6 @@ it('day 13 part 1 ', () => {
     .forEach(it => screen.display(it));
 
   expect(screen.numberOfBlocks()).toEqual(369);
-  console.log(screen.toString());
 });
 
 enum JoystickPosition {
@@ -110,7 +105,6 @@ it('day 13 part 2', () => {
 
   let positionBall: Coordinate | undefined = undefined;
   let positionPaddle: Coordinate | undefined = undefined;
-  let started = false;
 
   intCodeComputer.load(program);
   intCodeComputer.onOutput((out) => {
@@ -121,13 +115,8 @@ it('day 13 part 2', () => {
     const banana = buildBanana(output);
     screen.display(banana);
     output.length = 0;
-
-    console.log(screen.toString());
-
     const [coordinate, tile] = banana;
     if (coordinate.x === -1) {
-      console.log('score: ' + tile);
-      started = true;
       screen.score = tile;
     }
 
@@ -137,26 +126,25 @@ it('day 13 part 2', () => {
     if (tile === Tile.HorizontalPaddle) {
       positionPaddle = coordinate;
     }
-    if (positionBall === undefined || positionPaddle === undefined || !started) {
-      return;
-    }
-    const paddleX = positionPaddle.x;
-    const ballX = positionBall.x;
-    if (paddleX === ballX) {
-      console.log('_');
-      intCodeComputer.addInput([JoystickPosition.Neutral]);
-    } else if (paddleX < ballX) {
-      console.log('>');
-      intCodeComputer.addInput([JoystickPosition.Right]);
-    } else if (paddleX > ballX) {
-      console.log('<');
-      intCodeComputer.addInput([JoystickPosition.Left]);
-    }
   });
 
   while (!intCodeComputer.terminated()) {
+    if (intCodeComputer.waitingForInput()) {
+      if (positionPaddle === undefined || positionBall === undefined) {
+        throw new Error('should not happen');
+      }
+      const paddleX = positionPaddle.x;
+      const ballX = positionBall.x;
+      if (paddleX === ballX) {
+        intCodeComputer.addInput([JoystickPosition.Neutral]);
+      } else if (paddleX < ballX) {
+        intCodeComputer.addInput([JoystickPosition.Right]);
+      } else if (paddleX > ballX) {
+        intCodeComputer.addInput([JoystickPosition.Left]);
+      }
+    }
     intCodeComputer.execute();
   }
 
-  expect(screen.score).toBe(34);
+  expect(screen.score).toBe(19210);
 });
