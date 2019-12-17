@@ -22,19 +22,34 @@ enum Tile {
   Ball = 4,
 }
 
+type Banana = [Coordinate, Tile];
+
+class Screen {
+  readonly pixels = new Map<String, Tile>();
+
+  display(banana: Banana) {
+    const [coordinate, tile] = banana;
+    this.pixels.set(coordinate.toString(), tile);
+  }
+
+  numberOfBlocks() {
+    return Array.from(this.pixels.values()).reduce((acc, tile) => {
+      if (tile === Tile.Block) {
+        return acc + 1;
+      }
+      return acc;
+    }, 0);
+  }
+}
+
+const loadBreakout = () => runProgram(loadIntProgramAt('Day13'));
 
 it('day 13 part 1 ', () => {
-  const intCodeComputer = runProgram(loadIntProgramAt('Day13'));
+  const intCodeComputer = loadBreakout();
+  const screen = new Screen();
   const numbers = intCodeComputer.output();
-  const screen = new Map<String, Tile>();
-  partition(numbers, 3).map<[Coordinate, Tile]>( group => [new Coordinate(group[0], group[1]), group[2] as Tile])
-    .forEach( ([coordinate, tile]) => screen.set(coordinate.toString(), tile));
-  const numberOfBlocks = Array.from(screen.values()).reduce((acc, tile) => {
-    if (tile === Tile.Block) {
-      return acc + 1;
-    }
-    return acc
-  }, 0);
+  partition(numbers, 3).map<Banana>(group => [new Coordinate(group[0], group[1]), group[2] as Tile])
+    .forEach(it => screen.display(it));
 
-  expect(numberOfBlocks).toEqual(369);
+  expect(screen.numberOfBlocks()).toEqual(369);
 });
