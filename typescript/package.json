@@ -38,6 +38,6 @@
     "setupFilesAfterEnv": [
       "<rootDir>/tests/setup.ts"
     ],
-    "collectCoverage": true
+    "collectCoverage": false
   }
 }
