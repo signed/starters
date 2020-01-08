@@ -3,9 +3,7 @@ import { fireEvent, queries } from '@testing-library/dom';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 
-function inputElement(): HTMLInputElement {
-  return queries.getByPlaceholderText(document.body, 'hello-placeholder') as HTMLInputElement;
-}
+const inputElement = (): HTMLInputElement => (queries.getByPlaceholderText(document.body, 'hello-placeholder') as HTMLInputElement);
 
 describe('text input', () => {
   beforeEach(() => {
