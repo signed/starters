@@ -1,4 +1,4 @@
-import { hello, asyncFunction, callbackFunction } from '../src/index'
+import { asyncFunction, callbackFunction, hello } from '../src/index';
 
 describe('hello world', () => {
   it('should greet the parameter', () => {

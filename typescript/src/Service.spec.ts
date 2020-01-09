@@ -1,6 +1,7 @@
-import {call} from "../src/Client";
-import { provideService } from "../src/Service";
+import { call } from '../src/Client';
+import { provideService } from '../src/Service';
 import Mock = jest.Mock;
+
 jest.mock('../src/Client');
 
 describe('mock', () => {

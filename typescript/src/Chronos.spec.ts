@@ -1,6 +1,6 @@
 import { install, InstalledClock } from 'lolex';
 
-import { deeplyNestedAsync } from '../src/Chronos';
+import { deeplyNestedAsync } from './Chronos';
 
 describe('async code', () => {
   describe('in real time', () => {

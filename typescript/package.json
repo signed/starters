@@ -32,12 +32,14 @@
     "preset": "ts-jest",
     "testEnvironment": "jsdom",
     "roots": [
-      "<rootDir>/tests",
       "<rootDir>/src"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/tests/setup.ts"
     ],
+    "moduleNameMapper": {
+      "^src/(.*)$": "<rootDir>/src/$1"
+    },
     "collectCoverage": false
   }
 }
