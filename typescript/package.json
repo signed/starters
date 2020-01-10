@@ -2,44 +2,77 @@
   "name": "ts-starter",
   "version": "1.0.0",
   "description": "Basic typescript setup for tdd",
-  "main": "src/index.ts",
   "private": true,
   "scripts": {
     "test": "jest"
   },
   "devDependencies": {
+    "@babel/core": "7.8.3",
     "@testing-library/dom": "6.11.0",
     "@testing-library/jest-dom": "4.2.4",
+    "@testing-library/react": "9.4.0",
     "@testing-library/user-event": "8.0.3",
     "@types/jest": "24.0.25",
     "@types/lolex": "5.1.0",
+    "@types/node": "13.1.6",
+    "@types/react": "16.9.17",
+    "@types/react-dom": "16.9.4",
+    "babel-jest": "24.9.0",
+    "babel-preset-react-app": "9.1.0",
     "jest": "24.9.0",
+    "jest-environment-jsdom-fifteen": "1.0.2",
+    "jest-watch-typeahead": "0.4.2",
     "lolex": "5.1.2",
-    "ts-jest": "24.3.0",
+    "react": "16.12.0",
+    "react-app-polyfill": "1.0.5",
+    "react-dom": "16.12.0",
     "typescript": "3.7.4"
   },
   "jest": {
-    "globals": {
-      "ts-jest": {
-        "diagnostics": {
-          "warnOnly": true,
-          "ignoreCodes": [
-            "TS151001"
-          ]
-        }
-      }
-    },
-    "preset": "ts-jest",
-    "testEnvironment": "jsdom",
     "roots": [
       "<rootDir>/src"
     ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/tests/setup.ts"
+    "setupFiles": [
+      "react-app-polyfill/jsdom"
     ],
-    "moduleNameMapper": {
-      "^src/(.*)$": "<rootDir>/src/$1"
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setup.ts"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/*.{spec,test}.{ts,tsx}"
+    ],
+    "testEnvironment": "jest-environment-jsdom-fifteen",
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest"
     },
-    "collectCoverage": false
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$"
+    ],
+    "modulePaths": [
+      "<rootDir>/src"
+    ],
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "web.ts",
+      "ts",
+      "web.tsx",
+      "tsx",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
+    ],
+    "watchPlugins": [
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
+    ],
+    "coverageDirectory": "<rootDir>/out/coverage",
+    "collectCoverage": true
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
   }
 }

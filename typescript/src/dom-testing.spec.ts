@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 
 const inputElement = (): HTMLInputElement => (queries.getByPlaceholderText(document.body, 'hello-placeholder') as HTMLInputElement);
 
-describe('text input', () => {
+describe.skip('text input', () => {
   beforeEach(() => {
     document.body.innerHTML = '<input type="text" placeholder="hello-placeholder" value="initial"/>';
   });

@@ -1,3 +1,4 @@
+export {}
 const passErrorToCallback = (callback: (error: Error) => void) => callback(new Error('Secret Sauce'));
 
 test('message of error passed to the callback ', () => {
