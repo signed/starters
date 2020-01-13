@@ -1,6 +1,6 @@
 export {}
 
-describe.skip('jest parameterized tests', () => {
+describe('jest parameterized tests', () => {
   test.each([[1, 1, 2], [1, 2, 3], [2, 1, 3]])(
     '.add(%i, %i)',
     (a, b, expected) => {
