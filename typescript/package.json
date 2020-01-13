@@ -36,7 +36,7 @@
       "react-app-polyfill/jsdom"
     ],
     "setupFilesAfterEnv": [
-      "<rootDir>/src/setup.ts"
+      "<rootDir>/src/before-tests.ts"
     ],
     "testMatch": [
       "<rootDir>/src/**/*.{spec,test}.{ts,tsx}"
