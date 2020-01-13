@@ -1,6 +1,5 @@
 // https://testing-library.com/docs/react-testing-library/cheatsheet
 import { fireEvent, queries } from '@testing-library/dom';
-import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 
 const inputElement = (): HTMLInputElement => (queries.getByPlaceholderText(document.body, 'hello-placeholder') as HTMLInputElement);
