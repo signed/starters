@@ -68,7 +68,8 @@
       "jest-watch-typeahead/testname"
     ],
     "coverageDirectory": "<rootDir>/out/coverage",
-    "collectCoverage": true
+    "collectCoverage": true,
+    "resetMocks": true
   },
   "babel": {
     "presets": [
