@@ -1,5 +1,6 @@
 import { fireEvent, getByLabelText } from '@testing-library/dom';
 
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
 // https://www.polvara.me/posts/testing-a-custom-select-with-react-testing-library/
 describe('select', () => {
   const petSelect = () => (getByLabelText(document.body, 'Choose a pet:') as HTMLSelectElement);
