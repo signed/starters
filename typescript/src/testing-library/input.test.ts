@@ -18,12 +18,10 @@ describe('text input', () => {
     expect(inputElement()).toHaveValue('updated');
   });
 
-  it('replaces instead of continue writing at the end', () => {
-    inputElement().addEventListener('keydown', (event: KeyboardEvent) => {
-      console.log(event.key);
-    });
+  it('text is always appended currently there seems to be no way to position the caret or do a selection', () => {
+    inputElement().value = '';
     userEvent.type(inputElement(), 'one');
     userEvent.type(inputElement(), 'two');
-    expect(inputElement()).toHaveValue('two');
+    expect(inputElement()).toHaveValue('onetwo');
   });
 });

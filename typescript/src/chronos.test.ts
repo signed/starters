@@ -1,5 +1,5 @@
+import { install, InstalledClock } from '@sinonjs/fake-timers';
 import { deeplyNestedAsync } from 'chronos';
-import { install, InstalledClock } from 'lolex';
 
 describe('async code', () => {
   describe('in real time', () => {
