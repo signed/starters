@@ -23,6 +23,7 @@
     "jest": "25.1.0",
     "jest-environment-jsdom-fifteen": "1.0.2",
     "jest-watch-typeahead": "0.4.2",
+    "pusher-js-mock": "0.3.0",
     "react": "16.13.0",
     "react-app-polyfill": "1.0.6",
     "react-dom": "16.13.0",
@@ -75,5 +76,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "dependencies": {
+    "pusher-js": "5.1.1"
   }
 }
