@@ -65,7 +65,7 @@
       "jest-watch-typeahead/filename",
       "jest-watch-typeahead/testname"
     ],
-    "coverageDirectory": "<rootDir>/out/coverage",
+    "coverageDirectory": "<rootDir>/build/coverage",
     "collectCoverage": true,
     "resetMocks": true
   },
