@@ -20,7 +20,7 @@ type AddSlowTest = {
 }
 
 // https://github.com/facebook/jest/blob/master/packages/jest-circus/src/index.ts
-export const slowTest: Global.It = (() => {
+const explicitCustomDefaultTimeout = ((defaultTimeout: number): Global.It => {
   const slowTest = (
     testName: Global.TestName,
     fn: Global.TestFn,
@@ -30,7 +30,7 @@ export const slowTest: Global.It = (() => {
     testName: Global.TestName,
     fn: Global.TestFn,
     timeout?: number
-  ): void => _addSlowTest('skip', testName , fn, timeout);
+  ): void => _addSlowTest('skip', testName, fn, timeout);
   const only = (
     testName: Global.TestName,
     fn: Global.TestFn,
@@ -54,7 +54,7 @@ export const slowTest: Global.It = (() => {
     if (testFn === undefined) {
       throw new Error('should not happen');
     }
-    const timeout = timeoutOverride ?? 7000;
+    const timeout = timeoutOverride ?? defaultTimeout;
     if (mode === undefined) {
       return test(testName, testFn, timeout);
     }
@@ -74,5 +74,7 @@ export const slowTest: Global.It = (() => {
   slowTest.skip = skip;
 
   return slowTest;
-})();
+});
+
+export const slowTest = explicitCustomDefaultTimeout(7000);
 
