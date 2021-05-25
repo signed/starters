@@ -8,7 +8,7 @@ describe('hello world', () => {
 
 describe('testing async functions', () => {
   describe('inject a done', () => {
-    it('and callback is invoked', async (done) => {
+    it('and callback is invoked', (done) => {
       callbackFunction((value: string) => {
         expect(value).toEqual('hello from the callback');
         done();
