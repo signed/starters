@@ -33,7 +33,8 @@
       "<rootDir>/src"
     ],
     "setupFiles": [
-      "react-app-polyfill/jsdom"
+      "react-app-polyfill/jsdom",
+      "<rootDir>/src/jest/rejecting-console.ts"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/src/before-tests.ts"
