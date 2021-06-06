@@ -1243,6 +1243,18 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@testdeck/core@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@testdeck/core/-/core-0.1.2.tgz#9083b6c0d6ca198ba2fe03c72cf06a52c2f9fba9"
+  integrity sha512-rggcFQqSejqtkqK1JcwZE/utD4oNsM1JMHwrYxH1PKYx0uL2cMs0Q4zMVLKw0oacIASCfkIUSdXx7rDNdCDlvA==
+
+"@testdeck/jest@0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@testdeck/jest/-/jest-0.1.2.tgz#3da20641d292ac505026d6d85208cd80e9b825ac"
+  integrity sha512-x3bVRIpMpx5PXmGEhCSv4q8qiJFMRzZ9ow6whAqDabfBTTsxdkaAd4uCSUohBVAPI3kdqQPu2BmT6PCopgTwnw==
+  dependencies:
+    "@testdeck/core" "^0.1.2"
+
 "@testing-library/dom@7.31.2":
   version "7.31.2"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-7.31.2.tgz#df361db38f5212b88555068ab8119f5d841a8c4a"
