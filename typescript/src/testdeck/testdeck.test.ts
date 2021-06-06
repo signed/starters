@@ -1,4 +1,4 @@
-import { suite, test } from '@testdeck/jest';
+import { skip, suite, test } from '@testdeck/jest';
 
 class Counter {
   value = 0;
@@ -29,7 +29,7 @@ class A {
     expect(this.counter.value).toBe(2);
   }
 
-  @test 'wait for the promise to return'() {
+  @test @skip 'wait for the promise to return'() {
     return asyncCode();
   }
 }
