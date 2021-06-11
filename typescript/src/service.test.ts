@@ -9,4 +9,7 @@ describe('mock', () => {
     mockedCall.mockResolvedValue('mocked response');
     return expect(provideService()).resolves.toEqual('api returned mocked response');
   });
+  it('should fail', () => {
+    //throw new Error('go away')
+  });
 });
