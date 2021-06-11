@@ -38,6 +38,7 @@
     "typescript": "4.7.2"
   },
   "jest": {
+    "reporters": ["default", "<rootDir>/build/tsc/jest/reporter"],
     "roots": [
       "<rootDir>/src"
     ],
