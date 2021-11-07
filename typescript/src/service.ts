@@ -1,6 +1,6 @@
-import { call } from 'client';
+import {call} from 'client'
 
 export const provideService = async () => {
-  const result = await call('wupdidu');
-  return 'api returned ' + result;
-};
+  const result = await call('wupdidu')
+  return 'api returned ' + result
+}

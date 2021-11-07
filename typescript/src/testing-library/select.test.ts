@@ -1,9 +1,9 @@
-import { fireEvent, getByLabelText } from '@testing-library/dom';
+import {fireEvent, getByLabelText} from '@testing-library/dom'
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
 // https://www.polvara.me/posts/testing-a-custom-select-with-react-testing-library/
 describe('select', () => {
-  const petSelect = () => (getByLabelText(document.body, 'Choose a pet:') as HTMLSelectElement);
+  const petSelect = () => getByLabelText(document.body, 'Choose a pet:') as HTMLSelectElement
 
   beforeEach(() => {
     document.body.innerHTML = `
@@ -16,16 +16,15 @@ describe('select', () => {
     <option value="parrot">Parrot</option>
     <option value="spider">Spider</option>
     <option value="goldfish">Goldfish</option>
-</select>`;
-  });
+</select>`
+  })
 
   test('check initial selection', () => {
-    expect(petSelect().selectedOptions).toHaveLength(1);
-    expect(petSelect().selectedOptions[0].text).toBe('Select your option');
-  });
+    expect(petSelect().selectedOptions).toHaveLength(1)
+    expect(petSelect().selectedOptions[0].text).toBe('Select your option')
+  })
   test('single select', () => {
-    fireEvent.click(petSelect(), { target: { value: 'goldfish' } });
-    expect(petSelect().selectedOptions[0].text).toBe('Goldfish');
-  });
-});
-
+    fireEvent.click(petSelect(), {target: {value: 'goldfish'}})
+    expect(petSelect().selectedOptions[0].text).toBe('Goldfish')
+  })
+})

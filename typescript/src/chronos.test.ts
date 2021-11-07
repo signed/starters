@@ -1,50 +1,49 @@
-import { install, InstalledClock } from '@sinonjs/fake-timers';
-import { deeplyNestedAsync } from 'chronos';
+import {install, InstalledClock} from '@sinonjs/fake-timers'
+import {deeplyNestedAsync} from 'chronos'
 
 describe('async code', () => {
   describe('in real time', () => {
     it('2nd callback should be called given a long enough timeout', (done) => {
-      const one = jest.fn();
-      const two = () => done();
-      deeplyNestedAsync(one, two);
-    }, 5000);
-  });
+      const one = jest.fn()
+      const two = () => done()
+      deeplyNestedAsync(one, two)
+    }, 5000)
+  })
   describe('jest fake timers', () => {
     beforeEach(() => {
-      jest.useFakeTimers();
-    });
+      jest.useFakeTimers()
+    })
     afterEach(() => {
-      jest.useRealTimers();
-    });
+      jest.useRealTimers()
+    })
     it('2nd callback should be called immediately because we fake time', (done) => {
-      const ignore = jest.fn();
-      const complete = () => done();
-      deeplyNestedAsync(ignore, complete);
-      expect(jest.getTimerCount()).toEqual(1);
-      jest.runAllTimers();
-      expect(jest.getTimerCount()).toEqual(0);
+      const ignore = jest.fn()
+      const complete = () => done()
+      deeplyNestedAsync(ignore, complete)
+      expect(jest.getTimerCount()).toEqual(1)
+      jest.runAllTimers()
+      expect(jest.getTimerCount()).toEqual(0)
     }, 100)
-  });
+  })
 
   describe('lolex fake time', () => {
-    let clock: InstalledClock;
+    let clock: InstalledClock
 
     beforeEach(() => {
-      clock = install();
-    });
+      clock = install()
+    })
 
     afterEach(() => {
-      clock.uninstall();
-    });
+      clock.uninstall()
+    })
 
     it('should ', (done) => {
-      const ignore = jest.fn();
-      const complete = () => done();
-      deeplyNestedAsync(ignore, complete);
-      expect(clock.countTimers()).toEqual(1);
-      clock.runAll();
-      expect(clock.countTimers()).toEqual(0);
-    });
-  });
-});
-
+      const ignore = jest.fn()
+      const complete = () => done()
+      deeplyNestedAsync(ignore, complete)
+      expect(clock.countTimers()).toEqual(1)
+      clock.runAll()
+      expect(clock.countTimers()).toEqual(0)
+    })
+  })
+})
