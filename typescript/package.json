@@ -4,7 +4,9 @@
   "description": "Basic typescript setup for tdd",
   "private": true,
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc"
   },
   "devDependencies": {
     "@babel/core": "7.16.0",
