@@ -1,4 +1,4 @@
-import { Clock, install } from '@sinonjs/fake-timers';
+import { install, InstalledClock } from '@sinonjs/fake-timers';
 import { deeplyNestedAsync } from 'chronos';
 
 describe('async code', () => {
@@ -27,7 +27,7 @@ describe('async code', () => {
   });
 
   describe('lolex fake time', () => {
-    let clock: Clock;
+    let clock: InstalledClock;
 
     beforeEach(() => {
       clock = install();
