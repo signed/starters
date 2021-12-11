@@ -1,4 +1,4 @@
-import {asyncFunction, callbackFunction, hello} from 'index'
+import { asyncFunction, callbackFunction, hello } from 'index'
 
 describe('hello world', () => {
   it('should greet the parameter', () => {
@@ -58,9 +58,9 @@ describe('testing async functions', () => {
 
 describe('matchers', () => {
   it('equality and identity ', () => {
-    const actual = {one: 1, two: 2}
+    const actual = { one: 1, two: 2 }
     expect(actual).toBe(actual)
-    let expected = {one: 1, two: 2}
+    let expected = { one: 1, two: 2 }
     expect(actual).not.toBe(expected)
 
     expect(actual).toEqual(expected)

@@ -24,9 +24,9 @@ type Box<T> = Present<T> | Absent
 
 const box = (complex?: Complex): Box<Complex> => {
   if (complex === undefined) {
-    return {present: false}
+    return { present: false }
   }
-  return {present: true, ...complex}
+  return { present: true, ...complex }
 }
 
 type Maybe<T> = void | T

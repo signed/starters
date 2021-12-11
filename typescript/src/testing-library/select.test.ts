@@ -1,4 +1,4 @@
-import {fireEvent, getByLabelText} from '@testing-library/dom'
+import { fireEvent, getByLabelText } from '@testing-library/dom'
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
 // https://www.polvara.me/posts/testing-a-custom-select-with-react-testing-library/
@@ -24,7 +24,7 @@ describe('select', () => {
     expect(petSelect().selectedOptions[0].text).toBe('Select your option')
   })
   test('single select', () => {
-    fireEvent.click(petSelect(), {target: {value: 'goldfish'}})
+    fireEvent.click(petSelect(), { target: { value: 'goldfish' } })
     expect(petSelect().selectedOptions[0].text).toBe('Goldfish')
   })
 })

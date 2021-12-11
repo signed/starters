@@ -2,19 +2,14 @@
 // https://stackoverflow.com/questions/56174883/how-to-add-global-commands-to-jest-like-describe-and-it
 // https://softwarewright.dev/blog/posts/jest-unit-testing/extending-jest.html
 // https://github.com/pact-foundation/jest-pact
-import {test} from '@jest/globals'
-import {Circus, Global} from '@jest/types'
-import {bind as bindEach} from 'jest-each'
-import {ErrorWithStack} from 'jest-util'
+import { test } from '@jest/globals'
+import { Circus, Global } from '@jest/types'
+import { bind as bindEach } from 'jest-each'
+import { ErrorWithStack } from 'jest-util'
 
 type AddSlowTest = {
   (mode: 'todo', testName: Global.TestName): void
-  (
-    mode: 'only' | 'skip' | void,
-    testName: Global.TestName,
-    testFn: Global.TestFn,
-    timeoutOverride?: number
-  ): void
+  (mode: 'only' | 'skip' | void, testName: Global.TestName, testFn: Global.TestFn, timeoutOverride?: number): void
 }
 
 // https://github.com/facebook/jest/blob/master/packages/jest-circus/src/index.ts
@@ -37,7 +32,7 @@ const explicitCustomDefaultTimeout = (defaultTimeout: number): Global.It => {
     mode: Circus.TestMode,
     testName: Global.TestName,
     testFn?: Global.TestFn | undefined,
-    timeoutOverride?: number
+    timeoutOverride?: number,
   ): void => {
     if (mode === 'todo') {
       return test.todo(testName)

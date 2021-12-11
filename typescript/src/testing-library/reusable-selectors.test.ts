@@ -1,5 +1,5 @@
 // https://github.com/domasx2/testing-library-selector
-import {byPlaceholderText} from 'testing-library-selector'
+import { byPlaceholderText } from 'testing-library-selector'
 
 const inputElement = byPlaceholderText('hello-placeholder')
 

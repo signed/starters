@@ -11,10 +11,7 @@ export const asyncFunction = async (input: string, success: boolean = true) => {
   })
 }
 
-export const callbackFunction = (
-  callback: (value: string) => void,
-  invoke: boolean = true
-): void => {
+export const callbackFunction = (callback: (value: string) => void, invoke: boolean = true): void => {
   if (invoke) {
     callback('hello from the callback')
   }

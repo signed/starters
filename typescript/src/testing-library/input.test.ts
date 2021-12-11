@@ -1,5 +1,5 @@
 // https://testing-library.com/docs/react-testing-library/cheatsheet
-import {fireEvent, queries} from '@testing-library/dom'
+import { fireEvent, queries } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
 const inputElement = (): HTMLInputElement =>
@@ -15,7 +15,7 @@ describe('text input', () => {
   })
 
   it('change the initial value', () => {
-    fireEvent.change(inputElement(), {target: {value: 'updated'}})
+    fireEvent.change(inputElement(), { target: { value: 'updated' } })
     expect(inputElement()).toHaveValue('updated')
   })
 

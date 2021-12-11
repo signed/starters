@@ -1,5 +1,5 @@
-import {test} from '@jest/globals'
-import {slowTest} from './slow-test'
+import { test } from '@jest/globals'
+import { slowTest } from './slow-test'
 
 let delayBy = (milliSeconds: number) =>
   new Promise<void>((resolve) => {

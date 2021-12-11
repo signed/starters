@@ -1,4 +1,4 @@
-import {fireEvent, queries} from '@testing-library/dom'
+import { fireEvent, queries } from '@testing-library/dom'
 
 const inputElement = (): HTMLInputElement =>
   queries.getByPlaceholderText(document.body, 'hello-placeholder') as HTMLInputElement
@@ -12,19 +12,19 @@ describe('key events', () => {
 
   test('keydown', () => {
     inputElement().addEventListener('keydown', (e) => listener(e.key))
-    fireEvent.keyDown(inputElement(), {key: 'Enter'})
+    fireEvent.keyDown(inputElement(), { key: 'Enter' })
     expect(listener).toHaveBeenCalledWith('Enter')
   })
 
   test('keyup', () => {
     inputElement().addEventListener('keyup', (e) => listener(e.key))
-    fireEvent.keyUp(inputElement(), {key: 'Enter'})
+    fireEvent.keyUp(inputElement(), { key: 'Enter' })
     expect(listener).toHaveBeenCalledWith('Enter')
   })
 
   test('keypress', () => {
     inputElement().addEventListener('keypress', (e) => listener(e.key))
-    fireEvent.keyPress(inputElement(), {key: 'Enter'})
+    fireEvent.keyPress(inputElement(), { key: 'Enter' })
     expect(listener).toHaveBeenCalledWith('Enter')
   })
 })

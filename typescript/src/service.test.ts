@@ -1,5 +1,5 @@
-import {call} from 'client'
-import {provideService} from 'service'
+import { call } from 'client'
+import { provideService } from 'service'
 
 jest.mock('client')
 

@@ -1,4 +1,4 @@
-import {skip, suite, test} from '@testdeck/jest'
+import { skip, suite, test } from '@testdeck/jest'
 
 class Counter {
   value = 0
