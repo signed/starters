@@ -1,5 +1,7 @@
 fn main() {
-    println!("Hello, world!");
+    let rectangle = Rectangle { width: 8, height: 7 };
+    rectangle.can_hold(&rectangle);
+    println!("Hello, world! {:?}", rectangle);
 }
 
 #[derive(Debug)]
