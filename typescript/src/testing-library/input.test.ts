@@ -19,10 +19,10 @@ describe('text input', () => {
     expect(inputElement()).toHaveValue('updated')
   })
 
-  it('text is always appended currently there seems to be no way to position the caret or do a selection', () => {
+  it('text is always appended currently there seems to be no way to position the caret or do a selection', async () => {
     inputElement().value = ''
-    userEvent.type(inputElement(), 'one')
-    userEvent.type(inputElement(), 'two')
+    await userEvent.type(inputElement(), 'one')
+    await userEvent.type(inputElement(), 'two')
     expect(inputElement()).toHaveValue('onetwo')
   })
 })
