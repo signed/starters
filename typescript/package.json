@@ -19,6 +19,7 @@
     "@testing-library/user-event": "13.5.0",
     "@types/jest": "27.0.3",
     "@types/node": "17.0.1",
+    "@types/nodemailer": "6.4.4",
     "@types/react": "17.0.37",
     "@types/react-dom": "17.0.11",
     "@types/sinonjs__fake-timers": "8.1.1",
@@ -31,6 +32,7 @@
     "react-app-polyfill": "3.0.0",
     "react-dom": "17.0.2",
     "testing-library-selector": "0.2.1",
+    "ts-node": "10.7.0",
     "typescript": "4.5.4"
   },
   "jest": {
@@ -81,5 +83,9 @@
       "react-app"
     ]
   },
-  "prettier": "@signed/prettier-config"
+  "prettier": "@signed/prettier-config",
+  "dependencies": {
+    "nodemailer": "6.7.3",
+    "winston": "3.6.0"
+  }
 }
