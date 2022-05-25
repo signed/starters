@@ -42,12 +42,6 @@
     "testMatch": [
       "<rootDir>/src/**/*.tests.{ts,tsx}"
     ],
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$"
-    ],
-    "modulePaths": [
-      "<rootDir>/src"
-    ],
     "coverageDirectory": "<rootDir>/build/coverage",
     "collectCoverage": false,
     "resetMocks": true,
