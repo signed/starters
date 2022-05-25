@@ -28,7 +28,6 @@
     "jest-environment-jsdom": "28.1.0",
     "prettier": "2.6.2",
     "react": "18.1.0",
-    "react-app-polyfill": "3.0.0",
     "react-dom": "18.1.0",
     "testing-library-selector": "0.2.1",
     "typescript": "4.7.2"
@@ -36,9 +35,6 @@
   "jest": {
     "roots": [
       "<rootDir>/src"
-    ],
-    "setupFiles": [
-      "react-app-polyfill/jsdom"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/src/before-tests.ts"
