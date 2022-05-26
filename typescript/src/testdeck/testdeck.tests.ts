@@ -1,3 +1,4 @@
+import { expect } from '@jest/globals'
 import { skip, suite, test } from '@testdeck/jest'
 
 class Counter {
