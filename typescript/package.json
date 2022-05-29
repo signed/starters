@@ -13,6 +13,8 @@
     "@babel/core": "7.18.2",
     "@jest/types": "28.1.0",
     "@jest/globals": "28.1.0",
+    "@jest/reporters": "28.1.0",
+    "@jest/test-result": "28.1.0",
     "@signed/prettier-config": "0.1.0",
     "@sinonjs/fake-timers": "9.1.2",
     "@testdeck/jest": "0.2.0",
@@ -28,8 +30,8 @@
     "babel-preset-react-app": "10.0.1",
     "expect": "28.1.0",
     "jest": "28.1.0",
-    "jest-junit": "12.0.0",
     "jest-environment-jsdom": "28.1.0",
+    "jest-junit": "13.2.0",
     "jest-mock": "28.1.0",
     "prettier": "2.6.2",
     "react": "18.1.0",
@@ -38,7 +40,10 @@
     "typescript": "4.7.2"
   },
   "jest": {
-    "reporters": ["default", "<rootDir>/build/tsc/jest/reporter"],
+    "reporters": [
+      "default",
+      "<rootDir>/build/tsc/jest/reporter.js"
+    ],
     "roots": [
       "<rootDir>/src"
     ],
