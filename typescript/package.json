@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Basic typescript setup for tdd",
   "packageManager": "pnpm@8.7.1",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "private": true,
   "scripts": {
     "test": "jest",
@@ -19,13 +22,10 @@
     "@sinonjs/fake-timers": "11.1.0",
     "@testing-library/dom": "9.3.1",
     "@testing-library/jest-dom": "6.1.2",
-    "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "14.4.3",
     "@tsconfig/node20": "20.1.2",
     "@tsconfig/strictest": "2.0.2",
     "@types/node": "20.5.8",
-    "@types/react": "18.2.21",
-    "@types/react-dom": "18.2.7",
     "@types/sinonjs__fake-timers": "8.1.2",
     "babel-jest": "29.6.4",
     "babel-preset-react-app": "10.0.1",
@@ -34,8 +34,6 @@
     "jest-environment-jsdom": "29.6.4",
     "jest-mock": "29.6.3",
     "prettier": "3.0.3",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
     "testing-library-selector": "0.2.1",
     "typescript": "5.2.2"
   },
