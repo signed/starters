@@ -5,6 +5,6 @@ const passErrorToCallback = (callback: (error: Error) => void) => callback(new E
 test('message of error passed to the callback ', () => {
   const callback = jest.fn()
   passErrorToCallback(callback)
-  const passedError: any = callback.mock.calls[0][0]
+  const passedError: any = callback.mock.calls[0]?.[0]
   expect(passedError.message).toEqual('Secret Sauce')
 })

@@ -14,6 +14,6 @@ describe('jest parameterized tests', () => {
     ${1} | ${2} | ${3}
     ${2} | ${1} | ${3}
   `('returns $expected when $a is added $b', ({ a, b, expected }) => {
-    expect(a + b).toBe(expected)
+    expect(a! + b!).toBe(expected)
   })
 })

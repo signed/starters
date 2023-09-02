@@ -22,10 +22,10 @@ describe('select', () => {
 
   test('check initial selection', () => {
     expect(petSelect().selectedOptions).toHaveLength(1)
-    expect(petSelect().selectedOptions[0].text).toBe('Select your option')
+    expect(petSelect().selectedOptions[0]?.text).toBe('Select your option')
   })
   test('single select', () => {
     fireEvent.click(petSelect(), { target: { value: 'goldfish' } })
-    expect(petSelect().selectedOptions[0].text).toBe('Goldfish')
+    expect(petSelect().selectedOptions[0]?.text).toBe('Goldfish')
   })
 })
