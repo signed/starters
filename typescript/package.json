@@ -8,11 +8,12 @@
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "build": "tsc",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "nit-pick": "pnpm format && pnpm typecheck && pnpm test"
   },
   "devDependencies": {
-    "@babel/core": "7.22.9",
-    "@jest/globals": "29.6.2",
+    "@babel/core": "7.22.11",
+    "@jest/globals": "29.6.4",
     "@jest/types": "29.6.1",
     "@signed/prettier-config": "0.1.0",
     "@sinonjs/fake-timers": "10.3.0",
@@ -21,21 +22,21 @@
     "@testing-library/jest-dom": "5.17.0",
     "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "14.4.3",
-    "@types/node": "20.4.5",
-    "@types/react": "18.2.17",
+    "@types/node": "20.5.8",
+    "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "@types/sinonjs__fake-timers": "8.1.2",
-    "babel-jest": "29.6.2",
+    "babel-jest": "29.6.4",
     "babel-preset-react-app": "10.0.1",
-    "expect": "29.6.2",
-    "jest": "29.6.2",
-    "jest-environment-jsdom": "29.6.2",
-    "jest-mock": "29.6.2",
-    "prettier": "3.0.0",
+    "expect": "29.6.4",
+    "jest": "29.6.4",
+    "jest-environment-jsdom": "29.6.4",
+    "jest-mock": "29.6.3",
+    "prettier": "3.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "testing-library-selector": "0.2.1",
-    "typescript": "5.1.6"
+    "typescript": "5.2.2"
   },
   "jest": {
     "roots": [
