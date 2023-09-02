@@ -1,7 +1,7 @@
 plugins {
-    id("com.github.ben-manes.versions") version "0.42.0"
-    id("se.patrikerdes.use-latest-versions") version "0.2.18"
     java
+    id("com.github.ben-manes.versions") version "0.47.0"
+    id("se.patrikerdes.use-latest-versions") version "0.2.18"
 }
 
 repositories {
@@ -9,9 +9,9 @@ repositories {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.8.2"))
+    testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.assertj:assertj-core:3.22.0")
+    testImplementation("org.assertj:assertj-core:3.24.2")
 }
 
 tasks.test {
