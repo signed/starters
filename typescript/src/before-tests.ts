@@ -1,4 +1,4 @@
 import { jest } from '@jest/globals'
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 
 jest.setTimeout(1000)

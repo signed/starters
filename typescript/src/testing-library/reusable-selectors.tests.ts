@@ -1,6 +1,5 @@
 import { beforeEach, expect, it } from '@jest/globals'
 // https://github.com/domasx2/testing-library-selector
-import '@testing-library/jest-dom/extend-expect'
 import { byPlaceholderText } from 'testing-library-selector'
 
 const inputElement = byPlaceholderText('hello-placeholder')
