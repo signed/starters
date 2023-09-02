@@ -1,9 +1,9 @@
 import { describe, expect, it, jest } from '@jest/globals'
 import type { Mock } from 'jest-mock'
-import { call } from './client'
-import { provideService } from './service'
+import { call } from '../client'
+import { provideService } from '../service'
 
-jest.mock('./client')
+jest.mock('../client')
 
 describe('mock', () => {
   it('should work with the actual dependency', () => {

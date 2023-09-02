@@ -44,7 +44,7 @@
       "<rootDir>/src"
     ],
     "setupFilesAfterEnv": [
-      "<rootDir>/src/before-tests.ts"
+      "<rootDir>/src/jest/before-tests.ts"
     ],
     "testMatch": [
       "<rootDir>/src/**/*.tests.{ts,tsx}"
