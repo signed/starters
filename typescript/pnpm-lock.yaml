@@ -66,8 +66,8 @@ devDependencies:
     specifier: 3.0.3
     version: 3.0.3
   testing-library-selector:
-    specifier: 0.2.1
-    version: 0.2.1(@testing-library/dom@9.3.3)
+    specifier: 0.3.1
+    version: 0.3.1(@testing-library/dom@9.3.3)
   typescript:
     specifier: 5.2.2
     version: 5.2.2
@@ -3945,11 +3945,11 @@ packages:
       minimatch: 3.1.2
     dev: true
 
-  /testing-library-selector@0.2.1(@testing-library/dom@9.3.3):
-    resolution: {integrity: sha512-cTC9X3w3KAz04Q23vKN9FQdnBeB06C1Cr1tEmy10KNyx1BiVyoYz5i3iojmSGbPPndSPhiUauQWn3tDvrrBMeQ==}
+  /testing-library-selector@0.3.1(@testing-library/dom@9.3.3):
+    resolution: {integrity: sha512-DjXyUhY/omIQNXnjOBFpkRaLADlf9yWDAW0KYpuNuurlS4aJNd1cE7yGG1XAH/LaMOSJ8woCkKdcO2UzyDAYQw==}
     engines: {node: '>=10'}
     peerDependencies:
-      '@testing-library/dom': ^8.2.0
+      '@testing-library/dom': ^9.3.3
     dependencies:
       '@testing-library/dom': 9.3.3
     dev: true
