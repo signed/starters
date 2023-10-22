@@ -23,9 +23,10 @@ describe('text input', () => {
   })
 
   it('text is always appended currently there seems to be no way to position the caret or do a selection', async () => {
+    const user = userEvent.setup()
     inputElement().value = ''
-    await userEvent.type(inputElement(), 'one')
-    await userEvent.type(inputElement(), 'two')
+    await user.type(inputElement(), 'one')
+    await user.type(inputElement(), 'two')
     expect(inputElement()).toHaveValue('onetwo')
   })
 })
