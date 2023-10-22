@@ -17,11 +17,6 @@
     "nit-pick": "pnpm format && pnpm typecheck && pnpm test"
   },
   "devDependencies": {
-    "@babel/core": "7.23.2",
-    "@babel/preset-env": "7.23.2",
-    "@babel/preset-typescript": "7.23.2",
-    "@jest/globals": "29.7.0",
-    "@jest/types": "29.6.3",
     "@signed/prettier-config": "0.1.0",
     "@sinonjs/fake-timers": "11.1.0",
     "@testing-library/dom": "9.3.3",
@@ -31,43 +26,11 @@
     "@tsconfig/strictest": "2.0.2",
     "@types/node": "20.8.7",
     "@types/sinonjs__fake-timers": "8.1.4",
-    "babel-jest": "29.7.0",
-    "expect": "29.7.0",
-    "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
-    "jest-mock": "29.7.0",
     "prettier": "3.0.3",
     "testing-library-selector": "0.3.1",
     "typescript": "5.2.2",
     "vitest": "0.34.6"
-  },
-  "jest": {
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/jest/before-tests.ts"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/*.tests.{ts,tsx}"
-    ],
-    "coverageDirectory": "<rootDir>/build/coverage",
-    "collectCoverage": false,
-    "resetMocks": true,
-    "testEnvironment": "jsdom"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": "current"
-          }
-        }
-      ],
-      "@babel/preset-typescript"
-    ]
   },
   "prettier": "@signed/prettier-config"
 }
