@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, test } from '@jest/globals'
+import { afterEach, beforeEach, describe, test } from 'vitest'
 
 interface Context {
   identifier: string
