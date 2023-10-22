@@ -1,11 +1,14 @@
-import { beforeEach, describe, expect, jest, test } from '@jest/globals'
+/**
+ * @vitest-environment jsdom
+ */
+import { beforeEach, describe, expect, vi, test } from 'vitest'
 import { fireEvent, queries } from '@testing-library/dom'
 
 const inputElement = (): HTMLInputElement =>
   queries.getByPlaceholderText(document.body, 'hello-placeholder') as HTMLInputElement
 
 describe('key events', () => {
-  const listener = jest.fn()
+  const listener = vi.fn()
 
   beforeEach(() => {
     document.body.innerHTML = '<input type="text" placeholder="hello-placeholder" value="initial"/>'
