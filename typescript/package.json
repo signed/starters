@@ -2,13 +2,15 @@
   "name": "ts-starter",
   "version": "1.0.0",
   "description": "Basic typescript setup for tdd",
-  "packageManager": "pnpm@8.7.1",
+  "type": "module",
+  "packageManager": "pnpm@8.9.2",
   "engines": {
     "node": ">=20.0.0"
   },
   "private": true,
   "scripts": {
-    "test": "jest",
+    "test": "vitest run",
+    "jest": "jest",
     "typecheck": "tsc --noEmit",
     "build": "tsc",
     "format": "prettier --write .",
@@ -36,7 +38,8 @@
     "jest-mock": "29.7.0",
     "prettier": "3.0.3",
     "testing-library-selector": "0.3.1",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "vitest": "0.34.6"
   },
   "jest": {
     "roots": [
