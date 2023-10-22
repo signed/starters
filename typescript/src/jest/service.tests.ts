@@ -1,13 +1,12 @@
-import { describe, expect, it, jest } from '@jest/globals'
-import type { Mock } from 'jest-mock'
-import { call } from '../client'
-import { provideService } from '../service'
+import { describe, expect, it, vi, type MockedFunction } from 'vitest'
+vi.mock('../client.js')
 
-jest.mock('../client')
+import { call } from '../client.js'
+import { provideService } from '../service.js'
 
 describe('mock', () => {
   it('should work with the actual dependency', () => {
-    const mockedCall = call as Mock<typeof call>
+    const mockedCall = call as MockedFunction<typeof call>
     mockedCall.mockResolvedValue('mocked response')
     return expect(provideService()).resolves.toEqual('api returned mocked response')
   })
