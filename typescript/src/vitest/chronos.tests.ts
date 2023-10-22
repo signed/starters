@@ -1,10 +1,10 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { install, InstalledClock } from '@sinonjs/fake-timers'
 import { deeplyNestedAsync } from './chronos.js'
 
 describe('async code', () => {
   describe('in real time', () => {
-    it(
+    test(
       '2nd callback should be called given a long enough timeout',
       () => {
         return new Promise<void>((done) => {
@@ -23,7 +23,7 @@ describe('async code', () => {
     afterEach(() => {
       vi.useRealTimers()
     })
-    it(
+    test(
       '2nd callback should be called immediately because we fake time',
       () => {
         return new Promise<void>((done) => {
@@ -50,7 +50,7 @@ describe('async code', () => {
       clock.uninstall()
     })
 
-    it(
+    test(
       'should',
       () => {
         return new Promise<void>((done) => {
