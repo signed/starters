@@ -9,8 +9,8 @@ devDependencies:
     specifier: 0.1.0
     version: 0.1.0
   '@sinonjs/fake-timers':
-    specifier: 11.1.0
-    version: 11.1.0
+    specifier: 11.2.2
+    version: 11.2.2
   '@testing-library/dom':
     specifier: 9.3.3
     version: 9.3.3
@@ -346,8 +346,8 @@ packages:
       '@sinonjs/commons': 3.0.0
     dev: true
 
-  /@sinonjs/fake-timers@11.1.0:
-    resolution: {integrity: sha512-pUBaWhXoa9N0R/LeYKLqkrN9mqN3jwKBeMfbvlRtHUzLmk55o+0swncIuZBcSH/PpXDttRf/AcPF22pknAzORQ==}
+  /@sinonjs/fake-timers@11.2.2:
+    resolution: {integrity: sha512-G2piCSxQ7oWOxwGSAyFHfPIsyeJGXYtc6mFbnFA+kRXkiEnTl8c/8jul2S329iFBnDI9HGoeWWAZvuvOkZccgw==}
     dependencies:
       '@sinonjs/commons': 3.0.0
     dev: true
