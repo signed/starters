@@ -1,4 +1,7 @@
-import { beforeEach, describe, expect, test } from '@jest/globals'
+/**
+ * @vitest-environment jsdom
+ */
+import { beforeEach, describe, expect, test } from 'vitest'
 import { fireEvent, getByLabelText } from '@testing-library/dom'
 
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
