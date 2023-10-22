@@ -20,12 +20,13 @@ describe('text input', () => {
     expect(inputElement()).toHaveValue('updated')
   })
 
-  it('text is always appended currently there seems to be no way to position the caret or do a selection', async () => {
+  it('type text to input', async () => {
     const { user, inputElement } = renderInput()
     inputElement().value = ''
-    await user.type(inputElement(), 'one')
-    await user.type(inputElement(), 'two')
-    expect(inputElement()).toHaveValue('onetwo')
+    await user.type(inputElement(), 'initial ')
+    await user.type(inputElement(), 'append by default')
+    await user.type(inputElement(), 'prepend ', { initialSelectionStart: 0, initialSelectionEnd: 0 })
+    expect(inputElement()).toHaveValue('prepend initial append by default')
   })
 })
 
