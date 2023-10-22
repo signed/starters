@@ -1,10 +1,12 @@
-// https://testing-library.com/docs/react-testing-library/cheatsheet
-import { beforeEach, describe, expect, it } from '@jest/globals'
+/**
+ * @vitest-environment jsdom
+ */
+// https://testing-library.com/docs/dom-testing-library/cheatsheet
+// https://testing-library.com/docs/user-event/intro/#writing-tests-with-userevent
+import { beforeEach, describe, expect, it } from 'vitest'
+import '@testing-library/jest-dom/vitest'
 import { fireEvent, queries } from '@testing-library/dom'
-import userEvent from '@testing-library/user-event'
-
-const inputElement = (): HTMLInputElement =>
-  queries.getByPlaceholderText(document.body, 'hello-placeholder') as HTMLInputElement
+import { userEvent } from '@testing-library/user-event'
 
 describe('text input', () => {
   beforeEach(() => {
@@ -27,3 +29,6 @@ describe('text input', () => {
     expect(inputElement()).toHaveValue('onetwo')
   })
 })
+
+const inputElement = (): HTMLInputElement =>
+  queries.getByPlaceholderText(document.body, 'hello-placeholder') as HTMLInputElement
