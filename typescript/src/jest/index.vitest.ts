@@ -1,5 +1,5 @@
-import { describe, expect, it } from '@jest/globals'
-import { asyncFunction, callbackFunction, hello } from '../index'
+import { describe, expect, it } from 'vitest'
+import { asyncFunction, callbackFunction, hello } from '../index.js'
 
 describe('hello world', () => {
   it('should greet the parameter', () => {
@@ -9,17 +9,21 @@ describe('hello world', () => {
 
 describe('testing async functions', () => {
   describe('inject a done', () => {
-    it('and callback is invoked', (done) => {
-      callbackFunction((value: string) => {
-        expect(value).toEqual('hello from the callback')
-        done()
+    it('and callback is invoked', () => {
+      return new Promise<void>((done) => {
+        callbackFunction((value: string) => {
+          expect(value).toEqual('hello from the callback')
+          done()
+        })
       })
     })
-    it.skip('and callback is never invoked', (done) => {
-      callbackFunction((value: string) => {
-        expect(value).toEqual('hello from the callback')
-        done()
-      }, false)
+    it.skip('and callback is never invoked', () => {
+      return new Promise<void>((done) => {
+        callbackFunction((value: string) => {
+          expect(value).toEqual('hello from the callback')
+          done()
+        }, false)
+      })
     })
   })
 
