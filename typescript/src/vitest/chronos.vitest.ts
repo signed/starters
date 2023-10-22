@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { install, InstalledClock } from '@sinonjs/fake-timers'
-import { deeplyNestedAsync } from '../chronos.js'
+import { deeplyNestedAsync } from './chronos.js'
 
 describe('async code', () => {
   describe('in real time', () => {

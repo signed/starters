@@ -1,8 +1,7 @@
 import { describe, expect, it, vi, type MockedFunction } from 'vitest'
-vi.mock('../client.js')
-
-import { call } from '../client.js'
-import { provideService } from '../service.js'
+import { call } from './client.js'
+import { provideService } from './service.js'
+vi.mock('./client.js')
 
 describe('mock', () => {
   it('should work with the actual dependency', () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { asyncFunction, callbackFunction, hello } from '../index.js'
+import { asyncFunction, callbackFunction, hello } from './index.js'
 
 describe('hello world', () => {
   it('should greet the parameter', () => {
