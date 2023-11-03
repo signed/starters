@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Basic typescript setup for tdd",
   "type": "module",
-  "packageManager": "pnpm@8.9.2",
+  "packageManager": "pnpm@8.10.2",
   "engines": {
     "node": ">=20.0.0"
   },
