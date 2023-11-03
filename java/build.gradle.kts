@@ -1,6 +1,6 @@
 plugins {
     java
-    id("com.github.ben-manes.versions") version "0.47.0"
+    id("com.github.ben-manes.versions") version "0.49.0"
     id("se.patrikerdes.use-latest-versions") version "0.2.18"
 }
 
