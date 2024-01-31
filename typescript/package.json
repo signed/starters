@@ -20,17 +20,17 @@
     "@signed/prettier-config": "0.1.0",
     "@sinonjs/fake-timers": "11.2.2",
     "@testing-library/dom": "9.3.4",
-    "@testing-library/jest-dom": "6.2.0",
+    "@testing-library/jest-dom": "6.4.0",
     "@testing-library/user-event": "14.5.2",
     "@tsconfig/node20": "20.1.2",
     "@tsconfig/strictest": "2.0.2",
-    "@types/node": "20.11.5",
+    "@types/node": "20.11.13",
     "@types/sinonjs__fake-timers": "8.1.5",
     "jest-environment-jsdom": "29.7.0",
     "prettier": "3.2.4",
     "testing-library-selector": "0.3.1",
     "typescript": "5.3.3",
-    "vitest": "1.2.1"
+    "vitest": "1.2.2"
   },
   "prettier": "@signed/prettier-config"
 }
