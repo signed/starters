@@ -24,7 +24,7 @@
     "@testing-library/user-event": "14.5.2",
     "@tsconfig/node20": "20.1.4",
     "@tsconfig/strictest": "2.0.5",
-    "@types/node": "20.12.8",
+    "@types/node": "20.12.12",
     "@types/sinonjs__fake-timers": "8.1.5",
     "jest-environment-jsdom": "29.7.0",
     "prettier": "3.2.5",
