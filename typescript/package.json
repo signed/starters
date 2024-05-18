@@ -10,7 +10,6 @@
   "private": true,
   "scripts": {
     "test": "vitest run",
-    "jest": "jest",
     "typecheck": "tsc --noEmit",
     "build": "tsc",
     "format": "prettier --write .",
