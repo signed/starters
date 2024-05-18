@@ -14,7 +14,7 @@
     "build": "tsc",
     "format": "prettier --write .",
     "nitpick": "pnpm format && pnpm typecheck && pnpm test",
-    "libyear": "pnpx libyear"
+    "libyear": "pnpm dlx libyear"
   },
   "devDependencies": {
     "@signed/prettier-config": "0.1.0",
