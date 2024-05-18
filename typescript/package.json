@@ -13,7 +13,8 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc",
     "format": "prettier --write .",
-    "nitpick": "pnpm format && pnpm typecheck && pnpm test"
+    "nitpick": "pnpm format && pnpm typecheck && pnpm test",
+    "libyear": "pnpx libyear"
   },
   "devDependencies": {
     "@signed/prettier-config": "0.1.0",
