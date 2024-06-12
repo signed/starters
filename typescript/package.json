@@ -17,17 +17,17 @@
     "libyear": "pnpm dlx libyear"
   },
   "devDependencies": {
-    "@signed/prettier-config": "0.1.0",
+    "@signed/prettier-config": "0.2.0",
     "@sinonjs/fake-timers": "11.2.2",
     "@testing-library/dom": "10.1.0",
-    "@testing-library/jest-dom": "6.4.5",
+    "@testing-library/jest-dom": "6.4.6",
     "@testing-library/user-event": "14.5.2",
     "@tsconfig/node20": "20.1.4",
     "@tsconfig/strictest": "2.0.5",
-    "@types/node": "20.12.12",
+    "@types/node": "20.14.2",
     "@types/sinonjs__fake-timers": "8.1.5",
     "jest-environment-jsdom": "29.7.0",
-    "prettier": "3.2.5",
+    "prettier": "3.3.2",
     "testing-library-selector": "0.3.1",
     "typescript": "5.4.5",
     "vitest": "1.6.0"
