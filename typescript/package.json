@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Basic typescript setup for tdd",
   "type": "module",
-  "packageManager": "pnpm@9.3.0",
+  "packageManager": "pnpm@9.5.0",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -19,18 +19,18 @@
   "devDependencies": {
     "@signed/prettier-config": "0.2.0",
     "@sinonjs/fake-timers": "11.2.2",
-    "@testing-library/dom": "10.1.0",
+    "@testing-library/dom": "10.3.1",
     "@testing-library/jest-dom": "6.4.6",
     "@testing-library/user-event": "14.5.2",
     "@tsconfig/node20": "20.1.4",
     "@tsconfig/strictest": "2.0.5",
-    "@types/node": "20.14.2",
+    "@types/node": "20.14.10",
     "@types/sinonjs__fake-timers": "8.1.5",
     "jest-environment-jsdom": "29.7.0",
-    "prettier": "3.3.2",
+    "prettier": "3.3.3",
     "testing-library-selector": "0.3.1",
-    "typescript": "5.4.5",
-    "vitest": "1.6.0"
+    "typescript": "5.5.3",
+    "vitest": "2.0.2"
   },
   "prettier": "@signed/prettier-config"
 }
