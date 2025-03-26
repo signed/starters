@@ -18,19 +18,19 @@
   },
   "devDependencies": {
     "@signed/prettier-config": "0.2.0",
-    "@sinonjs/fake-timers": "13.0.5",
+    "@sinonjs/fake-timers": "14.0.0",
     "@testing-library/dom": "10.4.0",
     "@testing-library/jest-dom": "6.6.3",
-    "@testing-library/user-event": "14.5.2",
-    "@tsconfig/node20": "20.1.4",
+    "@testing-library/user-event": "14.6.1",
+    "@tsconfig/node20": "20.1.5",
     "@tsconfig/strictest": "2.0.5",
-    "@types/node": "22.10.0",
+    "@types/node": "22.13.13",
     "@types/sinonjs__fake-timers": "8.1.5",
     "jest-environment-jsdom": "29.7.0",
-    "prettier": "3.4.1",
+    "prettier": "3.5.3",
     "testing-library-selector": "0.3.1",
-    "typescript": "5.7.2",
-    "vitest": "2.1.6"
+    "typescript": "5.8.2",
+    "vitest": "3.0.9"
   },
   "prettier": "@signed/prettier-config"
 }
