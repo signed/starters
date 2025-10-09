@@ -1,12 +1,12 @@
 # https://docs.gradle.org/current/userguide/version_catalogs.html#sec:version-catalog-declaration
 [versions]
-version-catalog-update = "1.0.0"
-junit = "5.13.0-M2"
 assertj = "4.0.0-M1"
+junit = "6.0.0"
+version-catalog-update = "1.0.1"
 
 [libraries]
-junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 
 [plugins]
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }

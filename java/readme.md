@@ -2,6 +2,6 @@
 
 ```shell script
 ./gradlew wrapper --gradle-version latest
-./gradlew useLatestVersions
+./gradlew versionCatalogUpdate
 ./gradlew test
 ```
