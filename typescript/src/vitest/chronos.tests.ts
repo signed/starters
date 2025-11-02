@@ -4,17 +4,13 @@ import { deeplyNestedAsync } from './chronos.js'
 
 describe('async code', () => {
   describe('in real time', () => {
-    test(
-      '2nd callback should be called given a long enough timeout',
-      () => {
-        return new Promise<void>((done) => {
-          const one = vi.fn()
-          const two = () => done()
-          deeplyNestedAsync(one, two)
-        })
-      },
-      { timeout: 5000 },
-    )
+    test('2nd callback should be called given a long enough timeout', { timeout: 5000 }, () => {
+      return new Promise<void>((done) => {
+        const one = vi.fn()
+        const two = () => done()
+        deeplyNestedAsync(one, two)
+      })
+    })
   })
   describe('jest fake timers', () => {
     beforeEach(() => {
@@ -23,20 +19,16 @@ describe('async code', () => {
     afterEach(() => {
       vi.useRealTimers()
     })
-    test(
-      '2nd callback should be called immediately because we fake time',
-      () => {
-        return new Promise<void>((done) => {
-          const ignore = vi.fn()
-          const complete = () => done()
-          deeplyNestedAsync(ignore, complete)
-          expect(vi.getTimerCount()).toEqual(1)
-          vi.runAllTimers()
-          expect(vi.getTimerCount()).toEqual(0)
-        })
-      },
-      { timeout: 100 },
-    )
+    test('2nd callback should be called immediately because we fake time', { timeout: 100 }, () => {
+      return new Promise<void>((done) => {
+        const ignore = vi.fn()
+        const complete = () => done()
+        deeplyNestedAsync(ignore, complete)
+        expect(vi.getTimerCount()).toEqual(1)
+        vi.runAllTimers()
+        expect(vi.getTimerCount()).toEqual(0)
+      })
+    })
   })
 
   describe('lolex fake time', () => {
@@ -50,19 +42,15 @@ describe('async code', () => {
       clock.uninstall()
     })
 
-    test(
-      'should',
-      () => {
-        return new Promise<void>((done) => {
-          const ignore = vi.fn()
-          const complete = () => done()
-          deeplyNestedAsync(ignore, complete)
-          expect(clock.countTimers()).toEqual(1)
-          clock.runAll()
-          expect(clock.countTimers()).toEqual(0)
-        })
-      },
-      { timeout: 100 },
-    )
+    test('should', { timeout: 100 }, () => {
+      return new Promise<void>((done) => {
+        const ignore = vi.fn()
+        const complete = () => done()
+        deeplyNestedAsync(ignore, complete)
+        expect(clock.countTimers()).toEqual(1)
+        clock.runAll()
+        expect(clock.countTimers()).toEqual(0)
+      })
+    })
   })
 })

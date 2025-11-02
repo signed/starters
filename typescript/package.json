@@ -24,13 +24,13 @@
     "@testing-library/user-event": "14.6.1",
     "@tsconfig/node20": "20.1.6",
     "@tsconfig/strictest": "2.0.6",
-    "@types/node": "24.7.0",
-    "@types/sinonjs__fake-timers": "8.1.5",
+    "@types/node": "24.9.1",
+    "@types/sinonjs__fake-timers": "15.0.0",
     "jest-environment-jsdom": "30.2.0",
     "prettier": "3.6.2",
     "testing-library-selector": "0.3.1",
     "typescript": "5.9.3",
-    "vitest": "3.2.4"
+    "vitest": "4.0.3"
   },
   "prettier": "@signed/prettier-config"
 }
