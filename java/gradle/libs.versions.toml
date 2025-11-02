@@ -1,7 +1,7 @@
 # https://docs.gradle.org/current/userguide/version_catalogs.html#sec:version-catalog-declaration
 [versions]
 assertj = "4.0.0-M1"
-junit = "6.0.0"
+junit = "6.0.1"
 version-catalog-update = "1.0.1"
 
 [libraries]
