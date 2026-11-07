@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { install, InstalledClock } from '@sinonjs/fake-timers'
+import { install } from '@sinonjs/fake-timers'
 import { deeplyNestedAsync } from './chronos.js'
 
 describe('async code', () => {
@@ -32,7 +32,7 @@ describe('async code', () => {
   })
 
   describe('lolex fake time', () => {
-    let clock: InstalledClock
+    let clock: ReturnType<typeof install>
 
     beforeEach(() => {
       clock = install()
