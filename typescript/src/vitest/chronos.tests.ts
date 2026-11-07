@@ -1,5 +1,5 @@
+import FakeTimer from '@sinonjs/fake-timers'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { install } from '@sinonjs/fake-timers'
 import { deeplyNestedAsync } from './chronos.js'
 
 describe('async code', () => {
@@ -31,11 +31,11 @@ describe('async code', () => {
     })
   })
 
-  describe('lolex fake time', () => {
-    let clock: ReturnType<typeof install>
+  describe('sinon fake time', () => {
+    let clock: ReturnType<typeof FakeTimer.install>
 
     beforeEach(() => {
-      clock = install()
+      clock = FakeTimer.install()
     })
 
     afterEach(() => {
